@@ -828,26 +828,53 @@ body {
 
 
 <div id="pkg-edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;align-items:center;justify-content:center">
-  <div style="background:var(--mid);border:1px solid var(--border);border-radius:12px;padding:28px;width:90%;max-width:500px;max-height:85vh;overflow-y:auto;position:relative">
+  <div style="background:var(--mid);border:1px solid var(--border);border-radius:12px;padding:28px;width:95%;max-width:680px;max-height:90vh;overflow-y:auto;position:relative">
     <button class="modal-close" onclick="document.getElementById('pkg-edit-modal').style.display='none'">✕</button>
     <div style="font-family:'CanelaText',serif;font-size:20px;color:var(--white);margin-bottom:18px" id="pkg-modal-title">Edit Package</div>
     <input type="hidden" id="pme-id">
-    <div class="f" style="margin-bottom:10px"><div class="fl">Package Name</div><input class="fi" id="pme-name" placeholder="The Signature"></div>
-    <div class="f" style="margin-bottom:10px"><div class="fl">Tagline</div><input class="fi" id="pme-tagline" placeholder="Elevated events, fully produced."></div>
-    <div class="f" style="margin-bottom:10px"><div class="fl">Category</div>
-      <select class="fs" id="pme-cat">
-        <option value="personal">Personal Event</option>
-        <option value="brand">Brand & Business</option>
-        <option value="consultation">Consulting / Direction</option>
-      </select>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <div class="f"><div class="fl">Package Name</div><input class="fi" id="pme-name" placeholder="The Signature"></div>
+      <div class="f"><div class="fl">Starting At Price</div><input class="fi" id="pme-starting" placeholder="$2,000"></div>
     </div>
-    <div class="f" style="margin-bottom:10px"><div class="fl">Starting At Price</div><input class="fi" id="pme-starting" placeholder="$2,000"></div>
-    <div class="f" style="margin-bottom:10px"><div class="fl">What's Included (one per line)</div><textarea class="ft" id="pme-includes" style="min-height:90px" placeholder="Full creative concept&#10;All printed materials&#10;Day-of execution"></textarea></div>
-    <div class="f" style="margin-bottom:10px"><div class="fl">Deposit Note</div><input class="fi" id="pme-deposit-note" placeholder="30% deposit at booking..."></div>
-    <div class="f" style="margin-bottom:10px"><div class="fl">Notes</div><textarea class="ft" id="pme-notes" placeholder="Who is this for?"></textarea></div>
-    <div style="display:flex;gap:8px;margin-top:16px">
+    <div class="f" style="margin-bottom:10px"><div class="fl">Tagline</div><input class="fi" id="pme-tagline" placeholder="Elevated events, fully produced."></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div class="f"><div class="fl">Category</div>
+        <select class="fs" id="pme-cat">
+          <option value="personal">Personal Event</option>
+          <option value="brand">Brand &amp; Business</option>
+          <option value="consultation">Consulting / Direction</option>
+        </select>
+      </div>
+      <div class="f"><div class="fl">Deposit Note</div><input class="fi" id="pme-deposit-note" placeholder="30% deposit at booking..."></div>
+    </div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;font-weight:600;display:flex;justify-content:space-between;align-items:center">
+        Pricing Tiers <button class="btn btn-ghost" style="font-size:9px;padding:3px 10px" onclick="pmeAddTier()">+ Add Tier</button>
+      </div>
+      <div id="pme-tiers-wrap"></div>
+    </div>
+    <div class="f" style="margin-bottom:10px"><div class="fl">What's Included (one per line)</div><textarea class="ft" id="pme-includes" style="min-height:80px" placeholder="Full creative concept&#10;All printed materials&#10;Day-of execution"></textarea></div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;font-weight:600;display:flex;justify-content:space-between;align-items:center">
+        Add-On Options <button class="btn btn-ghost" style="font-size:9px;padding:3px 10px" onclick="pmeAddAddon()">+ Add Row</button>
+      </div>
+      <div id="pme-addons-wrap"></div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:14px;margin-bottom:14px">
+      <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;font-weight:600">Link to Client &amp; Event</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="f"><div class="fl">Linked Client</div>
+          <select class="fs" id="pme-client"><option value="">— None —</option></select>
+        </div>
+        <div class="f"><div class="fl">Linked Event</div>
+          <select class="fs" id="pme-event"><option value="">— None —</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="f" style="margin-bottom:16px"><div class="fl">Notes (who is this for?)</div><textarea class="ft" id="pme-notes" placeholder="Perfect for milestone birthdays, brand launches..."></textarea></div>
+    <div style="display:flex;gap:8px;margin-top:4px">
       <button class="btn btn-ghost" onclick="document.getElementById('pkg-edit-modal').style.display='none'">Cancel</button>
-      <button class="btn btn-primary" onclick="savePkgModal()">Save →</button>
+      <button class="btn btn-primary" onclick="savePkgModal()">Save Package →</button>
     </div>
   </div>
 </div>
@@ -870,75 +897,8 @@ function load() {
 }
 
 // ── Seed: only the one real Après Ski event, no fake clients/invoices ──
-function seed() {
-  S.events = [{
-    id: gid(), title: 'Après Ski, New Me', client: 'Amanda Rodriguez',
-    type: 'In-House / Portfolio', date: '2025-12-27', status: 'complete', budget: '$1,200–$1,800',
-    fields: {
-      f_summary: 'A cozy après ski–inspired New Year vision board party styled after vintage French Alps resorts. Guests sip French hot chocolate, make vision boards, write postcards to their future selves, and celebrate their peaks of the past year.',
-      f_concept: 'The entire event transports guests into a vintage après ski world. Think 1970s Chamonix posters, Gray Malin\'s Alpine photography, retro ski typography, and whimsical gondola silhouettes. Each station has its own Alpine identity: Chalet Café, Vision Lodge, The Post Office, and Peak of the Year.',
-      f_purpose: 'Content Creation, Portfolio, Brand Building, Annual Signature Event',
-      f_team: 'Amanda Rodriguez, Eric Pijeira, Hannah Del Cueto',
-      c_vision: 'Transform an indoor space into a warm Alpine chalet — nostalgic, cozy, graphic, and celebratory.',
-      c_arrival: 'Guests receive a lift ticket "pass" on red twine. A ski directional signpost greets them immediately.',
-      c_hero: 'The Peak of the Year mountain cutout — guests pin their 2025 peak and 2026 intention.',
-      c_sound: 'Phase 1: French café jazz. Phase 2: Angèle + French pop. Phase 3: elevated energy for the toast.',
-      c_music: 'Arrival: Café de Flore playlist. During activities: Angèle, Soko, Bon Iver. Toast: La Vie en Rose.',
-      c_linen: 'Cream or soft white base tablecloth layered with loose knit texture runners.',
-      c_centerpiece: 'Gondola boxes in icy blue and red. Clusters of bottle brush trees in varying heights.',
-      c_savory: 'Mini croque monsieur, raclette bites, French onion toasties, baked mini pretzels.',
-      c_sweet: 'Powdered beignets, cinnamon pastries, mini éclairs, chocolate fondue.',
-      c_drinks: 'Signature "Snowfall Spritz" — prosecco, elderflower, blue curaçao. Kir Royale, apple cider.',
-      c_colors: 'Icy Alpine Blue — dominant. Cherry Red — accent. Snow Cream — base. Cool Gray — secondary.',
-      c_identity: 'Après Ski, New Me. Stations: Chalet Café, Vision Lodge, The Post Office, Peak of the Year.',
-      c_activities: 'Vision board making, Postcards to Your Future, Peak of the Year wall.',
-      c_refs: 'https://pin.it/5dgqbehjI\nGray Malin Alpine photography\nVintage Chamonix ski posters'
-    },
-    tags: ['Alpine','Vintage','Cozy','Editorial','Cinematic'],
-    workflow: {
-      inquiry:[{id:gid(),text:'Define event concept and confirm in-house budget',done:true},{id:gid(),text:'Create Pinterest mood board and concept document',done:true}],
-      preproduction:[{id:gid(),text:'Finalize color palette and all station names',done:true},{id:gid(),text:'Design and order all printed materials',done:true},{id:gid(),text:'Source all decor: trees, knit textiles, fairy lights, faux snow',done:true},{id:gid(),text:'Build gondola centerpieces, mountain cutout, directional signpost',done:true}],
-      productionweek:[{id:gid(),text:'Confirm all printed materials — quality check',done:true},{id:gid(),text:'Pack all decor in labeled bins by station',done:true},{id:gid(),text:'Finalize run of show and share with team',done:true}],
-      eventday:[{id:gid(),text:'Arrive 3 hours before guests — full setup',done:true},{id:gid(),text:'Dedicated content capture — 30 min before guests arrive',done:true},{id:gid(),text:'Execute run of show and toast moment',done:true}],
-      postevent:[{id:gid(),text:'Full breakdown and pack-up by station',done:true},{id:gid(),text:'Organize and back up all photos and video',done:true},{id:gid(),text:'Select portfolio images and begin editing',done:false},{id:gid(),text:'Post event recap content to Haute & Host platforms',done:false}]
-    },
-    timeline:[
-      {id:gid(),time:'09:00',event:'Team arrives — venue access',notes:'All bins labeled by station. Start with largest builds.',role:'Full Team'},
-      {id:gid(),time:'11:45',event:'Café station setup + food prep',notes:'Enamel mugs, toppings bar, beignet setup.',role:'Eric'},
-      {id:gid(),time:'12:15',event:'Dedicated content capture — pre-guest',notes:'30 min of uninterrupted detail and hero shots.',role:'Amanda + Hannah'},
-      {id:gid(),time:'13:00',event:'Doors open — guest arrival',notes:'Music on. Lift tickets at entry. Café open.',role:'Amanda hosts'},
-      {id:gid(),time:'15:00',event:'Summit Toast — Peak of the Year',notes:'Guests gather at mountain. Share peaks. Confetti.',role:'Amanda leads'},
-      {id:gid(),time:'16:00',event:'Guest departure',notes:'Lift ticket take-aways at exit.',role:'Amanda + Hannah'},
-      {id:gid(),time:'16:15',event:'Breakdown begins',notes:'Decor first, food second, teardown last.',role:'Full Team'}
-    ],
-    packing: {
-      'Decor':[{id:gid(),name:'Faux snow / snow blankets',qty:'3 bags',done:true},{id:gid(),name:'Bottle brush trees (mixed heights)',qty:'20',done:true},{id:gid(),name:'Knitted throws + white blankets',qty:'4',done:true},{id:gid(),name:'Fairy lights (battery-operated)',qty:'6 strings',done:true},{id:gid(),name:'Gondola centerpieces (pre-built)',qty:'3',done:true},{id:gid(),name:'Mountain cutout (pre-built)',qty:'1',done:true},{id:gid(),name:'Directional signpost (pre-built)',qty:'1',done:true}],
-      'Signage & Print':[{id:gid(),name:'Welcome Chalet Sign (foam board)',qty:'1',done:true},{id:gid(),name:'Lift Ticket Passes',qty:'20',done:true},{id:gid(),name:'Vintage Postcards + envelopes',qty:'25',done:true},{id:gid(),name:'Station Menus (tent fold)',qty:'8',done:true}],
-      'Content Equipment':[{id:gid(),name:'Camera + fully charged battery',qty:'1 + 2 extra',done:true},{id:gid(),name:'Printed shot list',qty:'2 copies',done:true},{id:gid(),name:'Portable LED light panel',qty:'1',done:true}],
-      'Emergency Kit':[{id:gid(),name:'Stain remover pen',qty:'2',done:false},{id:gid(),name:'Safety pins (mixed sizes)',qty:'20',done:false},{id:gid(),name:'Black gaffer tape',qty:'1 roll',done:false}]
-    },
-    assets:[
-      {id:gid(),name:'Welcome Chalet Sign',owner:'Amanda',method:'print',vendor:'Staples',qty:'1',size:'24×36',deadline:'12/20',notes:'Retro ski graphic, foam board mount'},
-      {id:gid(),name:'Lift Ticket Passes',owner:'Amanda',method:'order',vendor:'Etsy',qty:'20',size:'3×5',deadline:'12/18',notes:'Red twine loop, air freshener style'},
-      {id:gid(),name:'Mountain Cutout',owner:'Amanda',method:'diy',vendor:'DIY',qty:'1',size:'5ft tall',deadline:'12/20',notes:'Icy blue, lined with bottle brush trees'},
-      {id:gid(),name:'Gondola Centerpieces',owner:'Amanda',method:'diy',vendor:'Cardboard',qty:'3',size:'Table scale',deadline:'12/22',notes:'Icy blue + red'},
-      {id:gid(),name:'Vintage Postcards',owner:'Amanda',method:'print',vendor:'Canva Print',qty:'25',size:'Postcard',deadline:'12/18',notes:'Alpine illustrations, guest writing activity'}
-    ],
-    shots:[
-      {id:gid(),category:'Detail Shots',title:'Lift ticket close-up',notes:'Red twine, hand holding — portfolio hero',done:true},
-      {id:gid(),category:'Detail Shots',title:'Frosted window art',notes:'Gondola silhouette with natural light behind',done:true},
-      {id:gid(),category:'Hero Moments',title:'Summit Toast — full room',notes:'Wide shot + confetti',done:true},
-      {id:gid(),category:'Hero Moments',title:'Peak of the Year wall',notes:'Mountain with all cards pinned',done:true},
-      {id:gid(),category:'Closing Shots',title:'Team photo at Peak Wall',notes:'Brand story content',done:true},
-      {id:gid(),category:'Closing Shots',title:'Empty table after event',notes:'Styled still life — aftermath beauty shot',done:false}
-    ],
-    postEvent:{rating:5,r_worked:'The signpost was the most photographed element. Lift tickets were a hit. Hot chocolate bar exceeded expectations.',r_didnt:'Mountain cutout slightly small — needed 30% larger. Lighting slightly too warm — blue tones washed out.',r_guests:'Multiple guests said "most thoughtful party they\'d ever been to." Instagram stories flooded the next morning.',r_improve:'Build mountain 2 weeks out. Print all materials 10 days before. Pre-stage every station photo before guests arrive.'}
-  }];
-  S.tasks = [
-    {id:gid(),text:'Edit and select final Après Ski portfolio images',hub:'Events',done:false,due:'2026-03-30'},
-    {id:gid(),text:'Post Après Ski recap to Instagram',hub:'Marketing',done:false,due:'2026-04-01'}
-  ];
-  S.packages = [
+function seedPackages() {
+  return [
 
     // ══════════════════════════════════════════════════
     // PERSONAL EVENTS
@@ -1333,6 +1293,78 @@ function seed() {
     },
 
   ];
+}
+
+function seed() {
+  S.events = [{
+    id: gid(), title: 'Après Ski, New Me', client: 'Amanda Rodriguez',
+    type: 'In-House / Portfolio', date: '2025-12-27', status: 'complete', budget: '$1,200–$1,800',
+    fields: {
+      f_summary: 'A cozy après ski–inspired New Year vision board party styled after vintage French Alps resorts. Guests sip French hot chocolate, make vision boards, write postcards to their future selves, and celebrate their peaks of the past year.',
+      f_concept: 'The entire event transports guests into a vintage après ski world. Think 1970s Chamonix posters, Gray Malin\'s Alpine photography, retro ski typography, and whimsical gondola silhouettes. Each station has its own Alpine identity: Chalet Café, Vision Lodge, The Post Office, and Peak of the Year.',
+      f_purpose: 'Content Creation, Portfolio, Brand Building, Annual Signature Event',
+      f_team: 'Amanda Rodriguez, Eric Pijeira, Hannah Del Cueto',
+      c_vision: 'Transform an indoor space into a warm Alpine chalet — nostalgic, cozy, graphic, and celebratory.',
+      c_arrival: 'Guests receive a lift ticket "pass" on red twine. A ski directional signpost greets them immediately.',
+      c_hero: 'The Peak of the Year mountain cutout — guests pin their 2025 peak and 2026 intention.',
+      c_sound: 'Phase 1: French café jazz. Phase 2: Angèle + French pop. Phase 3: elevated energy for the toast.',
+      c_music: 'Arrival: Café de Flore playlist. During activities: Angèle, Soko, Bon Iver. Toast: La Vie en Rose.',
+      c_linen: 'Cream or soft white base tablecloth layered with loose knit texture runners.',
+      c_centerpiece: 'Gondola boxes in icy blue and red. Clusters of bottle brush trees in varying heights.',
+      c_savory: 'Mini croque monsieur, raclette bites, French onion toasties, baked mini pretzels.',
+      c_sweet: 'Powdered beignets, cinnamon pastries, mini éclairs, chocolate fondue.',
+      c_drinks: 'Signature "Snowfall Spritz" — prosecco, elderflower, blue curaçao. Kir Royale, apple cider.',
+      c_colors: 'Icy Alpine Blue — dominant. Cherry Red — accent. Snow Cream — base. Cool Gray — secondary.',
+      c_identity: 'Après Ski, New Me. Stations: Chalet Café, Vision Lodge, The Post Office, Peak of the Year.',
+      c_activities: 'Vision board making, Postcards to Your Future, Peak of the Year wall.',
+      c_refs: 'https://pin.it/5dgqbehjI\nGray Malin Alpine photography\nVintage Chamonix ski posters'
+    },
+    tags: ['Alpine','Vintage','Cozy','Editorial','Cinematic'],
+    workflow: {
+      inquiry:[{id:gid(),text:'Define event concept and confirm in-house budget',done:true},{id:gid(),text:'Create Pinterest mood board and concept document',done:true}],
+      preproduction:[{id:gid(),text:'Finalize color palette and all station names',done:true},{id:gid(),text:'Design and order all printed materials',done:true},{id:gid(),text:'Source all decor: trees, knit textiles, fairy lights, faux snow',done:true},{id:gid(),text:'Build gondola centerpieces, mountain cutout, directional signpost',done:true}],
+      productionweek:[{id:gid(),text:'Confirm all printed materials — quality check',done:true},{id:gid(),text:'Pack all decor in labeled bins by station',done:true},{id:gid(),text:'Finalize run of show and share with team',done:true}],
+      eventday:[{id:gid(),text:'Arrive 3 hours before guests — full setup',done:true},{id:gid(),text:'Dedicated content capture — 30 min before guests arrive',done:true},{id:gid(),text:'Execute run of show and toast moment',done:true}],
+      postevent:[{id:gid(),text:'Full breakdown and pack-up by station',done:true},{id:gid(),text:'Organize and back up all photos and video',done:true},{id:gid(),text:'Select portfolio images and begin editing',done:false},{id:gid(),text:'Post event recap content to Haute & Host platforms',done:false}]
+    },
+    timeline:[
+      {id:gid(),time:'09:00',event:'Team arrives — venue access',notes:'All bins labeled by station. Start with largest builds.',role:'Full Team'},
+      {id:gid(),time:'11:45',event:'Café station setup + food prep',notes:'Enamel mugs, toppings bar, beignet setup.',role:'Eric'},
+      {id:gid(),time:'12:15',event:'Dedicated content capture — pre-guest',notes:'30 min of uninterrupted detail and hero shots.',role:'Amanda + Hannah'},
+      {id:gid(),time:'13:00',event:'Doors open — guest arrival',notes:'Music on. Lift tickets at entry. Café open.',role:'Amanda hosts'},
+      {id:gid(),time:'15:00',event:'Summit Toast — Peak of the Year',notes:'Guests gather at mountain. Share peaks. Confetti.',role:'Amanda leads'},
+      {id:gid(),time:'16:00',event:'Guest departure',notes:'Lift ticket take-aways at exit.',role:'Amanda + Hannah'},
+      {id:gid(),time:'16:15',event:'Breakdown begins',notes:'Decor first, food second, teardown last.',role:'Full Team'}
+    ],
+    packing: {
+      'Decor':[{id:gid(),name:'Faux snow / snow blankets',qty:'3 bags',done:true},{id:gid(),name:'Bottle brush trees (mixed heights)',qty:'20',done:true},{id:gid(),name:'Knitted throws + white blankets',qty:'4',done:true},{id:gid(),name:'Fairy lights (battery-operated)',qty:'6 strings',done:true},{id:gid(),name:'Gondola centerpieces (pre-built)',qty:'3',done:true},{id:gid(),name:'Mountain cutout (pre-built)',qty:'1',done:true},{id:gid(),name:'Directional signpost (pre-built)',qty:'1',done:true}],
+      'Signage & Print':[{id:gid(),name:'Welcome Chalet Sign (foam board)',qty:'1',done:true},{id:gid(),name:'Lift Ticket Passes',qty:'20',done:true},{id:gid(),name:'Vintage Postcards + envelopes',qty:'25',done:true},{id:gid(),name:'Station Menus (tent fold)',qty:'8',done:true}],
+      'Content Equipment':[{id:gid(),name:'Camera + fully charged battery',qty:'1 + 2 extra',done:true},{id:gid(),name:'Printed shot list',qty:'2 copies',done:true},{id:gid(),name:'Portable LED light panel',qty:'1',done:true}],
+      'Emergency Kit':[{id:gid(),name:'Stain remover pen',qty:'2',done:false},{id:gid(),name:'Safety pins (mixed sizes)',qty:'20',done:false},{id:gid(),name:'Black gaffer tape',qty:'1 roll',done:false}]
+    },
+    assets:[
+      {id:gid(),name:'Welcome Chalet Sign',owner:'Amanda',method:'print',vendor:'Staples',qty:'1',size:'24×36',deadline:'12/20',notes:'Retro ski graphic, foam board mount'},
+      {id:gid(),name:'Lift Ticket Passes',owner:'Amanda',method:'order',vendor:'Etsy',qty:'20',size:'3×5',deadline:'12/18',notes:'Red twine loop, air freshener style'},
+      {id:gid(),name:'Mountain Cutout',owner:'Amanda',method:'diy',vendor:'DIY',qty:'1',size:'5ft tall',deadline:'12/20',notes:'Icy blue, lined with bottle brush trees'},
+      {id:gid(),name:'Gondola Centerpieces',owner:'Amanda',method:'diy',vendor:'Cardboard',qty:'3',size:'Table scale',deadline:'12/22',notes:'Icy blue + red'},
+      {id:gid(),name:'Vintage Postcards',owner:'Amanda',method:'print',vendor:'Canva Print',qty:'25',size:'Postcard',deadline:'12/18',notes:'Alpine illustrations, guest writing activity'}
+    ],
+    shots:[
+      {id:gid(),category:'Detail Shots',title:'Lift ticket close-up',notes:'Red twine, hand holding — portfolio hero',done:true},
+      {id:gid(),category:'Detail Shots',title:'Frosted window art',notes:'Gondola silhouette with natural light behind',done:true},
+      {id:gid(),category:'Hero Moments',title:'Summit Toast — full room',notes:'Wide shot + confetti',done:true},
+      {id:gid(),category:'Hero Moments',title:'Peak of the Year wall',notes:'Mountain with all cards pinned',done:true},
+      {id:gid(),category:'Closing Shots',title:'Team photo at Peak Wall',notes:'Brand story content',done:true},
+      {id:gid(),category:'Closing Shots',title:'Empty table after event',notes:'Styled still life — aftermath beauty shot',done:false}
+    ],
+    postEvent:{rating:5,r_worked:'The signpost was the most photographed element. Lift tickets were a hit. Hot chocolate bar exceeded expectations.',r_didnt:'Mountain cutout slightly small — needed 30% larger. Lighting slightly too warm — blue tones washed out.',r_guests:'Multiple guests said "most thoughtful party they\'d ever been to." Instagram stories flooded the next morning.',r_improve:'Build mountain 2 weeks out. Print all materials 10 days before. Pre-stage every station photo before guests arrive.'}
+  }];
+  S.tasks = [
+    {id:gid(),text:'Edit and select final Après Ski portfolio images',hub:'Events',done:false,due:'2026-03-30'},
+    {id:gid(),text:'Post Après Ski recap to Instagram',hub:'Marketing',done:false,due:'2026-04-01'}
+  ];
+  S.packages = seedPackages();
+
   S.vendors = [
     {id:gid(),name:'Staples / FedEx Print',cat:'Print',contact:'—',rating:4,rehire:true,notes:'Reliable for foam boards and signage. 2-day turnaround.'},
     {id:gid(),name:'Canva Print',cat:'Print',contact:'canva.com',rating:5,rehire:true,notes:'Best for cards, menus, postcards. Order 10 days out.'},
@@ -3382,7 +3414,8 @@ function renderPackages() {
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px">
       ${cats.map(c=>`<button class="btn ${PS.cat===c.key?'btn-primary':'btn-ghost'}" style="font-size:9px;padding:6px 14px"
         onclick="pkgSetCat('${c.key}')">${c.label}</button>`).join('')}
-      <button class="btn btn-blue" style="font-size:9px;padding:6px 14px;margin-left:auto" onclick="pkgOpenCustom()">✦ Build Custom Package</button>
+      <button class="btn btn-ghost" style="font-size:9px;padding:6px 14px;margin-left:auto" onclick="addPkgModal()">+ New Package</button>
+      <button class="btn btn-blue" style="font-size:9px;padding:6px 14px" onclick="pkgOpenCustom()">✦ Build Custom Package</button>
     </div>`;
   }
 
@@ -3420,7 +3453,10 @@ function renderPackages() {
           `).join('')}
           ${(p.includes||[]).length > 3 ? `<span style="font-size:9px;color:var(--gray);padding:2px 7px">+${(p.includes||[]).length-3} more</span>` : ''}
         </div>
-        <div style="margin-top:10px;font-size:9px;color:var(--gray)">${(p.addons||[]).length} add-ons available</div>
+        <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:9px;color:var(--gray)">${(p.addons||[]).length} add-ons available</div>
+          ${(p.linkedClientId||p.linkedEventId) ? `<div style="font-size:9px;color:var(--blue);opacity:0.7">⬡ Linked</div>` : ''}
+        </div>
       </div>
     </div>`;
   }
@@ -3550,6 +3586,14 @@ function renderPackages() {
               <div style="font-size:9px;color:var(--gray);margin-top:6px;font-style:italic;line-height:1.5">${p.depositNote}</div>
               ` : ''}
             </div>
+
+            <!-- Linked client/event badges -->
+            ${(p.linkedClientId||p.linkedEventId) ? `
+            <div style="padding:10px 0;border-top:1px solid rgba(255,255,255,0.06);margin-bottom:4px">
+              <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);margin-bottom:6px">Linked To</div>
+              ${p.linkedClientId ? (() => { const cl = (S.clients||[]).find(c=>c.id===p.linkedClientId); return cl ? `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;cursor:pointer" onclick="S.currentClientId='${p.linkedClientId}';navTo('clients');setTimeout(()=>switchSub(2),50)"><span style="font-size:10px;color:var(--blue)">◈ ${cl.name}</span><span style="font-size:9px;color:var(--gray)">→ Client</span></div>` : ''; })() : ''}
+              ${p.linkedEventId ? (() => { const ev = (S.events||[]).find(e=>e.id===p.linkedEventId); return ev ? `<div style="display:flex;align-items:center;gap:6px;cursor:pointer" onclick="S.currentEventId='${p.linkedEventId}';navTo('events');setTimeout(()=>switchSub(2),50)"><span style="font-size:10px;color:var(--red)">◆ ${ev.title}</span><span style="font-size:9px;color:var(--gray)">→ Event</span></div>` : ''; })() : ''}
+            </div>` : ''}
 
             <div style="display:flex;flex-direction:column;gap:8px">
               <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="pkgCreateInvoice('${p.id}')">Create Invoice →</button>
@@ -3781,9 +3825,49 @@ function pkgCreateInvoice(pkgId) {
   if (typeEl) typeEl.value = 'deposit';
   openM('m-newInvoice');
 }
+function pmeTiersHTML(tiers) {
+  return (tiers||[]).map((t,i)=>`
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:6px;margin-bottom:6px;align-items:flex-end">
+      <div class="f"><div class="fl">Label</div><input class="fi" style="font-size:11px" value="${t.label||''}" placeholder="Up to 20 guests" onchange="window._pmeData.tiers[${i}].label=this.value"></div>
+      <div class="f"><div class="fl">Price</div><input class="fi" style="font-size:11px" value="${t.price||''}" placeholder="$2,000" onchange="window._pmeData.tiers[${i}].price=this.value"></div>
+      <div class="f"><div class="fl">Deposit</div><input class="fi" style="font-size:11px" value="${t.deposit!=null?t.deposit:''}" placeholder="600" onchange="window._pmeData.tiers[${i}].deposit=this.value===''?null:Number(this.value)"></div>
+      <div class="f"><div class="fl">Final</div><input class="fi" style="font-size:11px" value="${t.final!=null?t.final:''}" placeholder="1400" onchange="window._pmeData.tiers[${i}].final=this.value===''?null:Number(this.value)"></div>
+      <button class="btn btn-ghost" style="font-size:10px;padding:5px 8px;align-self:flex-end" onclick="pmeRemoveTier(${i})">✕</button>
+    </div>`).join('');
+}
+function pmeAddonsHTML(addons) {
+  return (addons||[]).map((a,i)=>`
+    <div style="display:grid;grid-template-columns:3fr 1fr auto;gap:6px;margin-bottom:6px;align-items:flex-end">
+      <div class="f"><div class="fl">Add-On Name</div><input class="fi" style="font-size:11px" value="${a.name||''}" placeholder="Content capture 2 hrs" onchange="window._pmeData.addons[${i}].name=this.value"></div>
+      <div class="f"><div class="fl">Label/Price</div><input class="fi" style="font-size:11px" value="${a.priceLabel||''}" placeholder="+$350" onchange="window._pmeData.addons[${i}].priceLabel=this.value;window._pmeData.addons[${i}].price=parseInt(this.value.replace(/[^0-9]/g,''))||0"></div>
+      <button class="btn btn-ghost" style="font-size:10px;padding:5px 8px;align-self:flex-end" onclick="pmeRemoveAddon(${i})">✕</button>
+    </div>`).join('');
+}
+function pmeAddTier() {
+  if (!window._pmeData) return;
+  window._pmeData.tiers.push({label:'',price:'',deposit:null,final:null});
+  document.getElementById('pme-tiers-wrap').innerHTML = pmeTiersHTML(window._pmeData.tiers);
+}
+function pmeRemoveTier(i) {
+  if (!window._pmeData) return;
+  window._pmeData.tiers.splice(i,1);
+  document.getElementById('pme-tiers-wrap').innerHTML = pmeTiersHTML(window._pmeData.tiers);
+}
+function pmeAddAddon() {
+  if (!window._pmeData) return;
+  window._pmeData.addons.push({id:'ao'+gid(),name:'',price:0,priceLabel:''});
+  document.getElementById('pme-addons-wrap').innerHTML = pmeAddonsHTML(window._pmeData.addons);
+}
+function pmeRemoveAddon(i) {
+  if (!window._pmeData) return;
+  window._pmeData.addons.splice(i,1);
+  document.getElementById('pme-addons-wrap').innerHTML = pmeAddonsHTML(window._pmeData.addons);
+}
+
 function pkgEditModal(pkgId) {
   const p = S.packages.find(p=>p.id===pkgId);
   if (!p) return;
+  window._pmeData = JSON.parse(JSON.stringify({tiers: p.tiers||[], addons: p.addons||[]}));
   document.getElementById('pme-id').value = pkgId;
   document.getElementById('pme-name').value = p.name||'';
   document.getElementById('pme-tagline').value = p.tagline||'';
@@ -3792,6 +3876,13 @@ function pkgEditModal(pkgId) {
   document.getElementById('pme-includes').value = (p.includes||[]).join('\n');
   document.getElementById('pme-deposit-note').value = p.depositNote||'';
   document.getElementById('pme-notes').value = p.notes||'';
+  document.getElementById('pme-tiers-wrap').innerHTML = pmeTiersHTML(window._pmeData.tiers);
+  document.getElementById('pme-addons-wrap').innerHTML = pmeAddonsHTML(window._pmeData.addons);
+  // Populate client & event dropdowns
+  const clSel = document.getElementById('pme-client');
+  clSel.innerHTML = '<option value="">— None —</option>' + (S.clients||[]).map(c=>`<option value="${c.id}" ${p.linkedClientId===c.id?'selected':''}>${c.name}</option>`).join('');
+  const evSel = document.getElementById('pme-event');
+  evSel.innerHTML = '<option value="">— None —</option>' + (S.events||[]).map(e=>`<option value="${e.id}" ${p.linkedEventId===e.id?'selected':''}>${e.title}</option>`).join('');
   document.getElementById('pkg-modal-title').textContent = 'Edit — ' + p.name;
   document.getElementById('pkg-edit-modal').style.display = 'flex';
 }
@@ -3804,20 +3895,25 @@ function savePkgModal() {
   if (!name) { toast('Package needs a name'); return; }
   const includesRaw = document.getElementById('pme-includes').value;
   const includes = includesRaw.split('\n').map(s=>s.trim()).filter(Boolean);
+  const linkedClientId = document.getElementById('pme-client').value || null;
+  const linkedEventId  = document.getElementById('pme-event').value  || null;
   const data = {
     name,
-    tagline:    document.getElementById('pme-tagline').value,
-    category:   document.getElementById('pme-cat').value,
-    startingAt: document.getElementById('pme-starting').value,
+    tagline:       document.getElementById('pme-tagline').value,
+    category:      document.getElementById('pme-cat').value,
+    startingAt:    document.getElementById('pme-starting').value,
     includes,
-    depositNote:document.getElementById('pme-deposit-note').value,
-    notes:      document.getElementById('pme-notes').value,
+    depositNote:   document.getElementById('pme-deposit-note').value,
+    notes:         document.getElementById('pme-notes').value,
+    tiers:         (window._pmeData||{}).tiers || [],
+    addons:        (window._pmeData||{}).addons || [],
+    linkedClientId, linkedEventId,
   };
   if (id) {
     const p = S.packages.find(p=>p.id===id);
     if (p) Object.assign(p, data);
   } else {
-    S.packages.push({id:gid(), tiers:[], addons:[], tier:'custom', ...data});
+    S.packages.push({id:gid(), tier:'custom', ...data});
   }
   save();
   document.getElementById('pkg-edit-modal').style.display = 'none';
@@ -3826,6 +3922,7 @@ function savePkgModal() {
 }
 
 function addPkgModal() {
+  window._pmeData = {tiers:[{label:'',price:'',deposit:null,final:null}], addons:[]};
   document.getElementById('pme-id').value = '';
   document.getElementById('pme-name').value = '';
   document.getElementById('pme-tagline').value = '';
@@ -3834,10 +3931,15 @@ function addPkgModal() {
   document.getElementById('pme-includes').value = '';
   document.getElementById('pme-deposit-note').value = '30% deposit due at booking. Balance due 14 days before event.';
   document.getElementById('pme-notes').value = '';
+  document.getElementById('pme-tiers-wrap').innerHTML = pmeTiersHTML(window._pmeData.tiers);
+  document.getElementById('pme-addons-wrap').innerHTML = pmeAddonsHTML(window._pmeData.addons);
+  const clSel = document.getElementById('pme-client');
+  clSel.innerHTML = '<option value="">— None —</option>' + (S.clients||[]).map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  const evSel = document.getElementById('pme-event');
+  evSel.innerHTML = '<option value="">— None —</option>' + (S.events||[]).map(e=>`<option value="${e.id}">${e.title}</option>`).join('');
   document.getElementById('pkg-modal-title').textContent = 'New Package';
   document.getElementById('pkg-edit-modal').style.display = 'flex';
 }
-
 function renderExpenses() {
   if (!S.expenses) S.expenses = [];
   const el = document.getElementById('finance-content');
@@ -4170,6 +4272,14 @@ function importOS(e){const f=e.target.files[0];if(!f)return;const r=new FileRead
 // INIT
 // ══════════════════════════════════════════════════
 load();
+// ── Package migration: refresh packages whenever seedPackages is updated ──
+// Bump this version number any time you change the packages lineup.
+const PKG_VERSION = 2;
+if (!S.packagesV || S.packagesV < PKG_VERSION) {
+  S.packages = seedPackages();
+  S.packagesV = PKG_VERSION;
+  localStorage.setItem(SK, JSON.stringify(S));
+}
 navTo('home');
 document.getElementById('nav-cta').style.display='';
 </script>
