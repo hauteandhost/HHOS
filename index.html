@@ -848,27 +848,19 @@ body {
       <div class="f"><div class="fl">Deposit Note</div><input class="fi" id="pme-deposit-note" placeholder="30% deposit at booking..."></div>
     </div>
     <div style="margin-bottom:14px">
-      <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;font-weight:600;display:flex;justify-content:space-between;align-items:center">
-        Pricing Tiers <button class="btn btn-ghost" style="font-size:9px;padding:3px 10px" onclick="pmeAddTier()">+ Add Tier</button>
-      </div>
+      <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;font-weight:600;display:flex;justify-content:space-between;align-items:center">Pricing Tiers <button class="btn btn-ghost" style="font-size:9px;padding:3px 10px" onclick="pmeAddTier()">+ Add Tier</button></div>
       <div id="pme-tiers-wrap"></div>
     </div>
     <div class="f" style="margin-bottom:10px"><div class="fl">What's Included (one per line)</div><textarea class="ft" id="pme-includes" style="min-height:80px" placeholder="Full creative concept&#10;All printed materials&#10;Day-of execution"></textarea></div>
     <div style="margin-bottom:14px">
-      <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;font-weight:600;display:flex;justify-content:space-between;align-items:center">
-        Add-On Options <button class="btn btn-ghost" style="font-size:9px;padding:3px 10px" onclick="pmeAddAddon()">+ Add Row</button>
-      </div>
+      <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;font-weight:600;display:flex;justify-content:space-between;align-items:center">Add-On Options <button class="btn btn-ghost" style="font-size:9px;padding:3px 10px" onclick="pmeAddAddon()">+ Add Row</button></div>
       <div id="pme-addons-wrap"></div>
     </div>
     <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:14px;margin-bottom:14px">
       <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;font-weight:600">Link to Client &amp; Event</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div class="f"><div class="fl">Linked Client</div>
-          <select class="fs" id="pme-client"><option value="">— None —</option></select>
-        </div>
-        <div class="f"><div class="fl">Linked Event</div>
-          <select class="fs" id="pme-event"><option value="">— None —</option></select>
-        </div>
+        <div class="f"><div class="fl">Linked Client</div><select class="fs" id="pme-client"><option value="">— None —</option></select></div>
+        <div class="f"><div class="fl">Linked Event</div><select class="fs" id="pme-event"><option value="">— None —</option></select></div>
       </div>
     </div>
     <div class="f" style="margin-bottom:16px"><div class="fl">Notes (who is this for?)</div><textarea class="ft" id="pme-notes" placeholder="Perfect for milestone birthdays, brand launches..."></textarea></div>
@@ -886,7 +878,7 @@ body {
 // STATE
 // ══════════════════════════════════════════════════
 const SK = 'hh_os_v3';
-let S = { events:[], clients:[], invoices:[], expenses:[], tasks:[], packages:[], vendors:[], socialPosts:[], shots:[], quickCapture:'', currentEventId:null, currentHub:'home', brand:{}, bizplan:{}, strategy:{}, policies:{}, boundaries:{}, goals:[] };
+let S = { events:[], clients:[], invoices:[], expenses:[], tasks:[], packages:[], vendors:[], socialPosts:[], shots:[], quickCapture:'', currentEventId:null, currentHub:'home', brand:{}, bizplan:{}, strategy:{}, policies:{}, boundaries:{}, goals:[], testimonials:[], launchPlan:{}, partnerships:[], commsEdits:{}, rentals:[], contractTemplate:'', legalNotes:{} };
 
 const gid = () => Date.now().toString(36) + Math.random().toString(36).slice(2);
 
@@ -903,79 +895,73 @@ function seedPackages() {
     // ══════════════════════════════════════════════════
     // PERSONAL EVENTS
     // ══════════════════════════════════════════════════
-
     {
       id:gid(), name:'Sweet Soirée',
       tagline:'Effortlessly intimate. Styled to feel like a moment, not just a party.',
-      category:'personal', tier:'entry',
-      startingAt:'$650',
+      category:'personal', tier:'entry', startingAt:'$650',
       tiers:[
-        {label:'Up to 10 guests',  price:'$650',   deposit:195,  final:455},
-        {label:'Up to 20 guests',  price:'$900',   deposit:270,  final:630},
-        {label:'Up to 30 guests',  price:'$1,200', deposit:360,  final:840},
+        {label:'Up to 10 guests', price:'$650',   deposit:195, final:455},
+        {label:'Up to 20 guests', price:'$900',   deposit:270, final:630},
+        {label:'Up to 30 guests', price:'$1,200', deposit:360, final:840},
       ],
       includes:[
-        ' 30-min virtual concept consultation',
+        '30-min virtual concept consultation',
         'Curated mood board (2 directions)',
-        'Decor sourcing list with links & budget breakdown',
+        'Decor sourcing list with links and budget breakdown',
         'Tablescaping layout guide',
         'Run of show outline (up to 3 hrs)',
-        'Packing & setup checklist',
-        'Day-of support via text (8am–6pm)',
+        'Packing and setup checklist',
+        'Day-of support via text (8am to 6pm)',
       ],
       addons:[
-        {id:'ss1', name:'On-site styling & setup (2 hrs)',           price:250, priceLabel:'+$250'},
-        {id:'ss2', name:'Custom printed menus & place cards',        price:120, priceLabel:'+$120'},
-        {id:'ss3', name:'Content capture — 1 hr golden hour',        price:275, priceLabel:'+$275'},
-        {id:'ss4', name:'Curated balloon or floral styling',         price:175, priceLabel:'+$175'},
-        {id:'ss5', name:'Take-away favor design (digital only)',      price:85,  priceLabel:'+$85'},
-        {id:'ss6', name:'Full load-in & breakdown service',          price:175, priceLabel:'+$175'},
+        {id:'ss1', name:'On-site styling and setup (2 hrs)',        price:250, priceLabel:'+$250'},
+        {id:'ss2', name:'Custom printed menus and place cards',     price:120, priceLabel:'+$120'},
+        {id:'ss3', name:'Content capture — 1 hr golden hour',      price:275, priceLabel:'+$275'},
+        {id:'ss4', name:'Curated balloon or floral styling',        price:175, priceLabel:'+$175'},
+        {id:'ss5', name:'Take-away favor design (digital only)',    price:85,  priceLabel:'+$85'},
+        {id:'ss6', name:'Full load-in and breakdown service',       price:175, priceLabel:'+$175'},
       ],
       depositNote:'30% deposit at booking. Balance due 5 days before event.',
-      notes:'Perfect for: birthday dinners, bridal showers, baby sprinkles, girls nights, vision board parties, and intimate holiday gatherings.',
+      notes:'Birthday dinners, bridal showers, baby sprinkles, girls nights, vision board parties, intimate holiday gatherings.',
     },
-
     {
       id:gid(), name:'The Curated Affair',
       tagline:'A fully designed experience from concept to cleanup. Every detail accounted for.',
-      category:'personal', tier:'mid',
-      startingAt:'$1,800',
+      category:'personal', tier:'mid', startingAt:'$1,800',
       tiers:[
-        {label:'Up to 20 guests',  price:'$1,800', deposit:540,  final:1260},
-        {label:'Up to 35 guests',  price:'$2,500', deposit:750,  final:1750},
-        {label:'Up to 50 guests',  price:'$3,200', deposit:960,  final:2240},
-        {label:'Up to 75 guests',  price:'$4,400', deposit:1320, final:3080},
+        {label:'Up to 20 guests', price:'$1,800', deposit:540,  final:1260},
+        {label:'Up to 35 guests', price:'$2,500', deposit:750,  final:1750},
+        {label:'Up to 50 guests', price:'$3,200', deposit:960,  final:2240},
+        {label:'Up to 75 guests', price:'$4,400', deposit:1320, final:3080},
       ],
       includes:[
-        'Full creative concept development & theme direction',
-        'Custom mood board with color story & styling notes',
-        'Decor sourcing, procurement & vendor coordination',
+        'Full creative concept development and theme direction',
+        'Custom mood board with color story and styling notes',
+        'Decor sourcing, procurement and vendor coordination',
         'Custom printed materials — menus, signage, place cards',
-        'Full setup & tablescaping (up to 5 hrs on-site)',
-        'Day-of timeline management & coordination',
-        'Packing system, transport checklist & load-in support',
-        'Strike & light breakdown at event end',
-        'Post-event recap notes & vendor list',
+        'Full setup and tablescaping (up to 5 hrs on-site)',
+        'Day-of timeline management and coordination',
+        'Packing system, transport checklist and load-in support',
+        'Strike and light breakdown at event end',
+        'Post-event recap notes and vendor list',
       ],
       addons:[
-        {id:'ca1', name:'Content capture — 2 hrs + 10 edited selects', price:400, priceLabel:'+$400'},
-        {id:'ca2', name:'Florals — full design, sourcing & arrangement',price:550, priceLabel:'+$550–$950'},
-        {id:'ca3', name:'Custom build or statement installation',       price:375, priceLabel:'+$375–$700'},
-        {id:'ca4', name:'Interactive guest station design & build',     price:275, priceLabel:'+$275'},
-        {id:'ca5', name:'Extended coordination past event (8+ hrs)',    price:300, priceLabel:'+$300'},
-        {id:'ca6', name:'Guest favor design, sourcing & packaging',     price:175, priceLabel:'+$175'},
-        {id:'ca7', name:'Full catering coordination & menu curation',   price:225, priceLabel:'+$225'},
-        {id:'ca8', name:'Personalized signage suite (4 pieces)',        price:165, priceLabel:'+$165'},
+        {id:'ca1', name:'Content capture — 2 hrs and 10 edited selects', price:400, priceLabel:'+$400'},
+        {id:'ca2', name:'Florals — full design, sourcing and arrangement', price:550, priceLabel:'+$550-$950'},
+        {id:'ca3', name:'Custom build or statement installation',          price:375, priceLabel:'+$375-$700'},
+        {id:'ca4', name:'Interactive guest station design and build',      price:275, priceLabel:'+$275'},
+        {id:'ca5', name:'Extended coordination past 8 hrs',               price:300, priceLabel:'+$300'},
+        {id:'ca6', name:'Guest favor design, sourcing and packaging',      price:175, priceLabel:'+$175'},
+        {id:'ca7', name:'Full catering coordination and menu curation',    price:225, priceLabel:'+$225'},
+        {id:'ca8', name:'Personalized signage suite (4 pieces)',           price:165, priceLabel:'+$165'},
       ],
       depositNote:'30% deposit at booking. Final balance due 14 days before event.',
       notes:'Most popular personal package. Best for milestone birthdays, bridal showers, bachelorette weekends, dinner parties, and holiday galas.',
     },
-
     {
       id:gid(), name:'The Grand Moment',
-      tagline:'No detail left to chance. A full production event that looks like it belongs in a magazine.',
-      category:'personal', tier:'premium',
-      startingAt:'$4,500',
+      tagline:'No detail left to chance. A full production event built for legacy.',
+      category:'personal', tier:'premium', startingAt:'$4,500',
       tiers:[
         {label:'Up to 30 guests',  price:'$4,500',  deposit:1350, final:3150},
         {label:'Up to 50 guests',  price:'$6,000',  deposit:1800, final:4200},
@@ -985,47 +971,45 @@ function seedPackages() {
       ],
       includes:[
         'Full creative direction deck — concept, mood, color story, layout',
-        'Custom theme world-building & brand story for the event',
-        'Shot list, content strategy & editorial run-of-show',
+        'Custom theme world-building and brand story for the event',
+        'Shot list, content strategy and editorial run-of-show',
         'All printed collateral — menus, signage, programs, place cards',
-        'Custom fabrication, builds & statement installations',
-        'Full decor sourcing, procurement, transport & setup',
-        'Complete day-of execution & timeline management (7+ hrs)',
+        'Custom fabrication, builds and statement installations',
+        'Full decor sourcing, procurement, transport and setup',
+        'Complete day-of execution and timeline management (7+ hrs)',
         'Content capture session — 3 hrs with on-site art direction',
         '15 curated, fully edited photo selects delivered',
-        'Full strike, breakdown & inventory return',
-        'Post-event debrief, recap deck & asset delivery',
+        'Full strike, breakdown and inventory return',
+        'Post-event debrief, recap deck and asset delivery',
       ],
       addons:[
-        {id:'gm1', name:'Full gallery — 50+ edited images',            price:700,  priceLabel:'+$700'},
-        {id:'gm2', name:'Highlight reel / recap video (60–90 sec)',    price:500,  priceLabel:'+$500'},
-        {id:'gm3', name:'Extended content day (5 hrs + 2nd shooter)', price:950,  priceLabel:'+$950'},
-        {id:'gm4', name:'Florals — full design & luxury arrangement',  price:800,  priceLabel:'+$800–$1,500'},
-        {id:'gm5', name:'Live coverage throughout event duration',     price:650,  priceLabel:'+$650'},
-        {id:'gm6', name:'Printed lookbook or event recap zine',        price:400,  priceLabel:'+$400'},
-        {id:'gm7', name:'Caption suite + social posting plan',         price:275,  priceLabel:'+$275'},
-        {id:'gm8', name:'Catering coordination & guest dietary mgmt',  price:350,  priceLabel:'+$350'},
+        {id:'gm1', name:'Full gallery — 50+ edited images',               price:700, priceLabel:'+$700'},
+        {id:'gm2', name:'Highlight reel / recap video (60-90 sec)',       price:500, priceLabel:'+$500'},
+        {id:'gm3', name:'Extended content day (5 hrs and 2nd shooter)',   price:950, priceLabel:'+$950'},
+        {id:'gm4', name:'Florals — full luxury design and arrangement',   price:800, priceLabel:'+$800-$1,500'},
+        {id:'gm5', name:'Live coverage throughout event duration',        price:650, priceLabel:'+$650'},
+        {id:'gm6', name:'Printed lookbook or event recap zine',           price:400, priceLabel:'+$400'},
+        {id:'gm7', name:'Caption suite and social posting plan',          price:275, priceLabel:'+$275'},
+        {id:'gm8', name:'Catering coordination and dietary management',   price:350, priceLabel:'+$350'},
       ],
       depositNote:'30% at booking. 30% due 30 days before event. Final 40% due 7 days before.',
-      notes:'For the events that need to be everything. Weddings, anniversaries, milestone galas, quinceañeras, luxury baby showers, and corporate personal celebrations.',
+      notes:'Weddings, anniversaries, milestone galas, quinceanieras, luxury baby showers, and corporate personal celebrations.',
     },
-
     {
       id:gid(), name:'The Micro Moment',
       tagline:'Small gathering, big intention. Styled simplicity for life\'s quiet milestones.',
-      category:'personal', tier:'micro',
-      startingAt:'$350',
+      category:'personal', tier:'micro', startingAt:'$350',
       tiers:[
-        {label:'Up to 6 guests — styling consult only', price:'$350',  deposit:350,  final:0},
-        {label:'Up to 6 guests — consult + sourcing',   price:'$550',  deposit:165,  final:385},
-        {label:'Up to 6 guests — full mini setup',      price:'$900',  deposit:270,  final:630},
+        {label:'Up to 6 guests — styling consult only', price:'$350', deposit:350, final:0},
+        {label:'Up to 6 guests — consult and sourcing', price:'$550', deposit:165, final:385},
+        {label:'Up to 6 guests — full mini setup',      price:'$900', deposit:270, final:630},
       ],
       includes:[
-        '45-min virtual planning & styling session',
+        '45-min virtual planning and styling session',
         'Mini mood board (one direction)',
         'Curated shopping list with exact product links',
         'Layout diagram for your space',
-        'Day-of text check-in & styling tips',
+        'Day-of text check-in and styling tips',
       ],
       addons:[
         {id:'mm1', name:'On-site setup assistance (1.5 hrs)',        price:200, priceLabel:'+$200'},
@@ -1034,50 +1018,44 @@ function seedPackages() {
         {id:'mm4', name:'30-min follow-up styling call',             price:75,  priceLabel:'+$75'},
       ],
       depositNote:'Full payment due at booking.',
-      notes:'Dinner for two, proposals, anniversary breakfasts, small friend hangs, office birthday setups, and any moment that deserves more than a grocery store balloon.',
+      notes:'Dinner for two, proposals, anniversary breakfasts, small friend hangs, and any moment that deserves more than a grocery store balloon.',
     },
 
     // ══════════════════════════════════════════════════
     // BRAND & BUSINESS
     // ══════════════════════════════════════════════════
-
     {
       id:gid(), name:'The Launch Moment',
-      tagline:'Your brand\'s first impression — made unforgettable. Polished, on-brand, and built to go viral.',
-      category:'brand', tier:'entry',
-      startingAt:'$2,200',
+      tagline:'Your brand\'s first impression — made unforgettable.',
+      category:'brand', tier:'entry', startingAt:'$2,200',
       tiers:[
-        {label:'Pop-up / sip & shop (4 hrs)',        price:'$2,200', deposit:660,  final:1540},
-        {label:'Product reveal or press preview',     price:'$3,200', deposit:960,  final:2240},
-        {label:'Brand dinner or media experience',    price:'$4,200', deposit:1260, final:2940},
+        {label:'Pop-up / sip and shop (4 hrs)',      price:'$2,200', deposit:660,  final:1540},
+        {label:'Product reveal or press preview',    price:'$3,200', deposit:960,  final:2240},
+        {label:'Brand dinner or media experience',   price:'$4,200', deposit:1260, final:2940},
       ],
       includes:[
-        'Brand discovery brief & 30-min kickoff call',
-        'Creative concept & mood board aligned to brand identity',
+        'Brand discovery brief and 30-min kickoff call',
+        'Creative concept and mood board aligned to brand identity',
         'Custom branded collateral — signage, menus, cards',
-        'Setup, styling & activation build (4 hrs on-site)',
+        'Setup, styling and activation build (4 hrs on-site)',
         'Content capture — 2 hrs with basic curation',
         '10 edited photo selects delivered within 5 business days',
-        'Brand-aligned color story & decor direction',
       ],
       addons:[
-        {id:'lm1', name:'Extended content coverage — 4 hrs',        price:500, priceLabel:'+$500'},
-        {id:'lm2', name:'Custom fabrication or branded installation',price:450, priceLabel:'+$450–$900'},
-        {id:'lm3', name:'Social caption suite — 5 posts + hashtags', price:200, priceLabel:'+$200'},
-        {id:'lm4', name:'Influencer gifting kit curation & styling', price:375, priceLabel:'+$375'},
-        {id:'lm5', name:'Strike & full breakdown',                   price:200, priceLabel:'+$200'},
-        {id:'lm6', name:'Press kit layout & design',                 price:300, priceLabel:'+$300'},
-        {id:'lm7', name:'Email announcement graphic design',         price:150, priceLabel:'+$150'},
+        {id:'lm1', name:'Extended content coverage — 4 hrs',          price:500, priceLabel:'+$500'},
+        {id:'lm2', name:'Custom fabrication or branded installation',  price:450, priceLabel:'+$450-$900'},
+        {id:'lm3', name:'Social caption suite — 5 posts and hashtags', price:200, priceLabel:'+$200'},
+        {id:'lm4', name:'Influencer gifting kit curation and styling', price:375, priceLabel:'+$375'},
+        {id:'lm5', name:'Strike and full breakdown',                   price:200, priceLabel:'+$200'},
+        {id:'lm6', name:'Press kit layout and design',                 price:300, priceLabel:'+$300'},
       ],
       depositNote:'40% deposit at signing. Final 60% due 14 days before event.',
-      notes:'Product launches, brand openings, sip & shop events, press dinners, and small brand activations. Best for emerging brands making their first public move.',
+      notes:'Product launches, brand openings, sip and shop events, press dinners, and small brand activations.',
     },
-
     {
       id:gid(), name:'The Experience',
       tagline:'Experiential marketing that people talk about long after they leave.',
-      category:'brand', tier:'premium',
-      startingAt:'$5,000',
+      category:'brand', tier:'premium', startingAt:'$5,000',
       tiers:[
         {label:'Half-day activation — up to 4 hrs',  price:'$5,000',  deposit:2000, final:3000},
         {label:'Full-day activation — up to 8 hrs',  price:'$8,000',  deposit:3200, final:4800},
@@ -1085,35 +1063,32 @@ function seedPackages() {
         {label:'Multi-day series or recurring',       price:'Custom',  deposit:null, final:null},
       ],
       includes:[
-        'Full brand strategy session & concept development',
-        'Custom fabrication, installations & branded builds',
-        'All collateral — printed, digital & physical touchpoints',
-        'Complete setup, art direction & on-site creative management',
+        'Full brand strategy session and concept development',
+        'Custom fabrication, installations and branded builds',
+        'All collateral — printed, digital and physical touchpoints',
+        'Complete setup, art direction and on-site creative management',
         'Content capture — 4 hrs with on-site editing direction',
-        'Basic content package — 20 selects + 1 short reel (60 sec)',
-        'Vendor sourcing, coordination & production management',
-        'Post-event deliverables deck, metrics notes & recap assets',
-        'Brand ambassador briefing notes & activation script',
+        '20 selects and 1 short reel (60 sec)',
+        'Vendor sourcing, coordination and production management',
+        'Post-event deliverables deck, metrics notes and recap assets',
+        'Brand ambassador briefing notes and activation script',
       ],
       addons:[
-        {id:'ex1', name:'Full video production — 30 to 90 sec',       price:1400, priceLabel:'+$1,400'},
-        {id:'ex2', name:'Influencer outreach & press coordination',    price:700,  priceLabel:'+$700'},
-        {id:'ex3', name:'Product display & retail merchandising',      price:400,  priceLabel:'+$400'},
-        {id:'ex4', name:'Additional activation day',                  price:3500, priceLabel:'+$3,500/day'},
+        {id:'ex1', name:'Full video production — 30 to 90 sec',        price:1400, priceLabel:'+$1,400'},
+        {id:'ex2', name:'Influencer outreach and press coordination',   price:700,  priceLabel:'+$700'},
+        {id:'ex3', name:'Product display and retail merchandising',     price:400,  priceLabel:'+$400'},
+        {id:'ex4', name:'Additional activation day',                   price:3500, priceLabel:'+$3,500/day'},
         {id:'ex5', name:'Brand ambassador staffing',                   price:250,  priceLabel:'+$250/person/day'},
         {id:'ex6', name:'Post-event social strategy deck (30 days)',   price:450,  priceLabel:'+$450'},
         {id:'ex7', name:'Live social story coverage during event',     price:300,  priceLabel:'+$300'},
-        {id:'ex8', name:'Custom interactive guest experience station', price:600,  priceLabel:'+$600'},
       ],
       depositNote:'40% at signing. 30% due 30 days before. Final 30% due 7 days prior.',
-      notes:'Store activations, pop-up shops, experiential marketing, brand milestones, and large-scale branded experiences. Built for brands that want to be felt, not just seen.',
+      notes:'Store activations, pop-up shops, experiential marketing, and large-scale branded experiences.',
     },
-
     {
       id:gid(), name:'The Retainer Partner',
-      tagline:'Your dedicated creative team — without the full-time hire. Ongoing brand momentum, handled.',
-      category:'brand', tier:'retainer',
-      startingAt:'$2,500/mo',
+      tagline:'Your dedicated creative team — without the full-time hire.',
+      category:'brand', tier:'retainer', startingAt:'$2,500/mo',
       tiers:[
         {label:'Essentials — 2 activations or content days/mo', price:'$2,500/mo', deposit:2500, final:null},
         {label:'Growth — 4 activations or content days/mo',     price:'$4,500/mo', deposit:4500, final:null},
@@ -1121,175 +1096,162 @@ function seedPackages() {
         {label:'Custom retainer scope',                         price:'Custom',    deposit:null, final:null},
       ],
       includes:[
-        'Dedicated account management & priority scheduling',
-        'Monthly creative calendar & concept planning session',
-        'Up to scope-based number of styled events or content productions',
-        'Same-week availability & rush turnaround included',
-        'Ongoing mood board maintenance & brand direction updates',
-        'Monthly recap deck with content notes & asset delivery',
-        'Priority access to new services, dates & team resources',
+        'Dedicated account management and priority scheduling',
+        'Monthly creative calendar and concept planning session',
+        'Scope-based styled events or content productions',
+        'Same-week availability and rush turnaround included',
+        'Ongoing mood board maintenance and brand direction updates',
+        'Monthly recap deck with content notes and asset delivery',
         'Locked rates for the duration of the retainer term',
       ],
       addons:[
-        {id:'rp1', name:'Additional event day beyond scope',      price:1200, priceLabel:'+$1,200/day'},
-        {id:'rp2', name:'Full video production per month',        price:700,  priceLabel:'+$700/mo'},
-        {id:'rp3', name:'Social content writing (monthly)',       price:450,  priceLabel:'+$450/mo'},
-        {id:'rp4', name:'Influencer coordination (monthly)',      price:600,  priceLabel:'+$600/mo'},
-        {id:'rp5', name:'Monthly analytics & reporting deck',     price:300,  priceLabel:'+$300/mo'},
+        {id:'rp1', name:'Additional event day beyond scope',    price:1200, priceLabel:'+$1,200/day'},
+        {id:'rp2', name:'Full video production per month',      price:700,  priceLabel:'+$700/mo'},
+        {id:'rp3', name:'Social content writing (monthly)',     price:450,  priceLabel:'+$450/mo'},
+        {id:'rp4', name:'Influencer coordination (monthly)',    price:600,  priceLabel:'+$600/mo'},
       ],
       depositNote:'First month invoiced at signing. Month-to-month with 30-day written cancellation notice.',
-      notes:'For brands with ongoing event and content needs. Retainer partners receive first access to team availability, locked rates, and dedicated creative attention.',
+      notes:'For brands with ongoing event and content needs. Retainer partners receive first access to team availability and locked rates.',
     },
-
     {
       id:gid(), name:'The Brand Refresh Shoot',
       tagline:'A single styled production day to rebrand, restock, and reset your visual identity.',
-      category:'brand', tier:'shoot',
-      startingAt:'$1,500',
+      category:'brand', tier:'shoot', startingAt:'$1,500',
       tiers:[
-        {label:'Mini brand shoot — 2 hrs, 1 set',               price:'$1,500', deposit:600,  final:900},
-        {label:'Half-day brand shoot — 4 hrs, 2 sets',          price:'$2,400', deposit:960,  final:1440},
-        {label:'Full brand day — 7 hrs, 3+ sets, full team',    price:'$3,800', deposit:1520, final:2280},
+        {label:'Mini brand shoot — 2 hrs, 1 set',             price:'$1,500', deposit:600,  final:900},
+        {label:'Half-day brand shoot — 4 hrs, 2 sets',        price:'$2,400', deposit:960,  final:1440},
+        {label:'Full brand day — 7 hrs, 3+ sets, full team',  price:'$3,800', deposit:1520, final:2280},
       ],
       includes:[
-        'Brand discovery form & style brief',
-        'Creative concept & shot list built around your brand identity',
-        'Full set design, prop sourcing & styling per set',
-        'On-site art direction & styling throughout shoot',
-        'Photo + short-form video content capture',
-        '15 edited photo selects + 1 short reel (30–45 sec)',
+        'Brand discovery form and style brief',
+        'Creative concept and shot list built around your brand identity',
+        'Full set design, prop sourcing and styling per set',
+        'On-site art direction and styling throughout shoot',
+        'Photo and short-form video content capture',
+        '15 edited photo selects and 1 short reel (30-45 sec)',
         'Full commercial usage rights for all deliverables',
       ],
       addons:[
-        {id:'br1', name:'Extended edit — 30 to 50 selects',            price:400, priceLabel:'+$400'},
-        {id:'br2', name:'Additional short-form video (30–60 sec)',      price:325, priceLabel:'+$325'},
-        {id:'br3', name:'Social caption suite (8 posts)',               price:200, priceLabel:'+$200'},
-        {id:'br4', name:'Second set or styling direction',              price:450, priceLabel:'+$450'},
-        {id:'br5', name:'Model or talent sourcing',                    price:175, priceLabel:'+$175 + talent fee'},
-        {id:'br6', name:'Product flat lay & e-commerce shots',         price:300, priceLabel:'+$300'},
+        {id:'br1', name:'Extended edit — 30 to 50 selects',         price:400, priceLabel:'+$400'},
+        {id:'br2', name:'Additional short-form video (30-60 sec)',   price:325, priceLabel:'+$325'},
+        {id:'br3', name:'Social caption suite (8 posts)',            price:200, priceLabel:'+$200'},
+        {id:'br4', name:'Second set or styling direction',           price:450, priceLabel:'+$450'},
+        {id:'br5', name:'Model or talent sourcing',                 price:175, priceLabel:'+$175 + talent fee'},
+        {id:'br6', name:'Product flat lay and e-commerce shots',    price:300, priceLabel:'+$300'},
       ],
       depositNote:'40% deposit at booking. Balance due day of shoot.',
-      notes:'Product brands, service businesses, coaches, restaurants, and anyone whose visuals no longer match where they are. Includes one hero set as standard.',
+      notes:'Product brands, service businesses, coaches, restaurants, and anyone whose visuals no longer match where they are.',
     },
 
     // ══════════════════════════════════════════════════
     // CONSULTATION & CREATIVE DIRECTION
     // ══════════════════════════════════════════════════
-
     {
       id:gid(), name:'The Vision Call',
       tagline:'One focused session. Leave with clarity, a direction, and the confidence to execute.',
-      category:'consultation', tier:'session',
-      startingAt:'$250',
+      category:'consultation', tier:'session', startingAt:'$250',
       tiers:[
-        {label:'60-min vision & direction call',               price:'$250',    deposit:250,  final:0},
-        {label:'90-min deep-dive strategy session',            price:'$375',    deposit:375,  final:0},
-        {label:'Half-day creative intensive (4 hrs)',          price:'$800',    deposit:400,  final:400},
-        {label:'Monthly creative advisory — ongoing',          price:'$600/mo', deposit:600,  final:null},
+        {label:'60-min vision and direction call',             price:'$250',    deposit:250, final:0},
+        {label:'90-min deep-dive strategy session',           price:'$375',    deposit:375, final:0},
+        {label:'Half-day creative intensive (4 hrs)',         price:'$800',    deposit:400, final:400},
+        {label:'Monthly creative advisory — ongoing',         price:'$600/mo', deposit:600, final:null},
       ],
       includes:[
-        'Pre-session intake form & concept questionnaire',
-        'Live creative direction, feedback & concept ideation',
-        'Vendor, decor & sourcing recommendations',
+        'Pre-session intake form and concept questionnaire',
+        'Live creative direction, feedback and concept ideation',
+        'Vendor, decor and sourcing recommendations',
         'Mood board review or collaborative build (session dependent)',
-        'Written session recap — notes, action steps & resource list',
+        'Written session recap — notes, action steps and resource list',
         'One email follow-up within 48 hrs post-session',
       ],
       addons:[
-        {id:'vc1', name:'Custom mood board built after session',       price:150, priceLabel:'+$150'},
-        {id:'vc2', name:'Written concept proposal or pitch deck',      price:225, priceLabel:'+$225'},
-        {id:'vc3', name:'30-min follow-up check-in call',              price:100, priceLabel:'+$100'},
-        {id:'vc4', name:'Vendor vetting & recommendation calls',       price:85,  priceLabel:'+$85/vendor'},
-        {id:'vc5', name:'Full sourcing list with links & budget',      price:175, priceLabel:'+$175'},
-        {id:'vc6', name:'Day-of virtual check-in (30 min)',            price:100, priceLabel:'+$100'},
+        {id:'vc1', name:'Custom mood board built after session',      price:150, priceLabel:'+$150'},
+        {id:'vc2', name:'Written concept proposal or pitch deck',     price:225, priceLabel:'+$225'},
+        {id:'vc3', name:'30-min follow-up check-in call',             price:100, priceLabel:'+$100'},
+        {id:'vc4', name:'Vendor vetting and recommendation calls',    price:85,  priceLabel:'+$85/vendor'},
+        {id:'vc5', name:'Full sourcing list with links and budget',   price:175, priceLabel:'+$175'},
       ],
-      depositNote:'Full payment due at booking to hold your session time. No refunds within 24 hrs of scheduled call.',
-      notes:'For DIY hosts, emerging planners, venue stylists, content creators, and brands who want expert creative guidance without the full production price tag.',
+      depositNote:'Full payment due at booking to hold your session time.',
+      notes:'For DIY hosts, emerging planners, venue stylists, content creators, and brands who want expert guidance without full production.',
     },
-
     {
       id:gid(), name:'The Creative Partnership',
       tagline:'Ongoing creative direction on-demand. Your personal taste editor — whenever you need one.',
-      category:'consultation', tier:'retainer',
-      startingAt:'$500/mo',
+      category:'consultation', tier:'retainer', startingAt:'$500/mo',
       tiers:[
-        {label:'Light — 2 calls/mo + async reviews',           price:'$500/mo',  deposit:500,  final:null},
-        {label:'Standard — 4 calls/mo + priority feedback',    price:'$900/mo',  deposit:900,  final:null},
-        {label:'Full — unlimited async + weekly call',         price:'$1,500/mo',deposit:1500, final:null},
+        {label:'Light — 2 calls/mo and async reviews',        price:'$500/mo',  deposit:500,  final:null},
+        {label:'Standard — 4 calls/mo and priority feedback', price:'$900/mo',  deposit:900,  final:null},
+        {label:'Full — unlimited async and weekly call',      price:'$1,500/mo',deposit:1500, final:null},
       ],
       includes:[
         'Dedicated creative direction on a rolling basis',
-        'Concept feedback, mood board reviews & styling notes',
-        'Vendor sourcing & recommendation support',
-        'Priority email & DM response (within 24 hrs business days)',
+        'Concept feedback, mood board reviews and styling notes',
+        'Vendor sourcing and recommendation support',
+        'Priority email and DM response (within 24 hrs business days)',
         'Monthly concept planning session or trend brief',
         'Discounted rates on any add-on production services',
       ],
       addons:[
-        {id:'cp1', name:'One custom mood board per month',             price:100, priceLabel:'+$100/mo'},
-        {id:'cp2', name:'Written concept proposal per project',        price:175, priceLabel:'+$175/project'},
-        {id:'cp3', name:'Rush turnaround feedback (same day)',         price:150, priceLabel:'+$150/request'},
+        {id:'cp1', name:'One custom mood board per month',          price:100, priceLabel:'+$100/mo'},
+        {id:'cp2', name:'Written concept proposal per project',     price:175, priceLabel:'+$175/project'},
+        {id:'cp3', name:'Rush turnaround feedback (same day)',      price:150, priceLabel:'+$150/request'},
       ],
       depositNote:'First month billed at start of partnership. 30-day cancellation notice required.',
-      notes:'Best for event planners, small studios, boutique venues, brand managers, and creators who benefit from a consistent creative eye they can reach anytime.',
+      notes:'Best for event planners, small studios, boutique venues, brand managers, and creators who benefit from a consistent creative eye.',
     },
-
     {
       id:gid(), name:'The Mood Board Studio',
       tagline:'A magazine-worthy concept direction — delivered in 72 hours.',
-      category:'consultation', tier:'deliverable',
-      startingAt:'$225',
+      category:'consultation', tier:'deliverable', startingAt:'$225',
       tiers:[
-        {label:'Single mood board — 1 direction',              price:'$225',   deposit:225,  final:0},
-        {label:'Dual concept — 2 directions to choose from',   price:'$375',   deposit:375,  final:0},
-        {label:'Full concept deck — board + sourcing + notes', price:'$550',   deposit:275,  final:275},
+        {label:'Single mood board — 1 direction',             price:'$225', deposit:225, final:0},
+        {label:'Dual concept — 2 directions to choose from',  price:'$375', deposit:375, final:0},
+        {label:'Full concept deck — board, sourcing, notes',  price:'$550', deposit:275, final:275},
       ],
       includes:[
-        'Intake questionnaire to capture your vision & vibe',
-        'Curated, high-resolution mood board — editorial quality',
-        'Color story, texture palette & styling notes',
+        'Intake questionnaire to capture your vision and vibe',
+        'Curated high-resolution mood board — editorial quality',
+        'Color story, texture palette and styling notes',
         'Delivered as PDF within 72 hrs of intake submission',
         'One round of revisions included',
       ],
       addons:[
-        {id:'mb1', name:'Sourcing list with product links & pricing',  price:150, priceLabel:'+$150'},
-        {id:'mb2', name:'30-min direction call to walk through board', price:100, priceLabel:'+$100'},
+        {id:'mb1', name:'Sourcing list with product links and pricing', price:150, priceLabel:'+$150'},
+        {id:'mb2', name:'30-min direction call to walk through board',  price:100, priceLabel:'+$100'},
         {id:'mb3', name:'Second revision round',                       price:75,  priceLabel:'+$75'},
         {id:'mb4', name:'Additional mood board direction',             price:175, priceLabel:'+$175'},
       ],
       depositNote:'Full payment due at booking. Revisions requested within 7 days of delivery.',
-      notes:'Great for brides, event hosts, brand managers, interior stylists, and photographers who need a strong visual concept before their planning begins.',
+      notes:'Great for brides, event hosts, brand managers, interior stylists, and photographers who need a strong visual concept.',
     },
-
     {
       id:gid(), name:'The Host Playbook',
-      tagline:'Your complete event planning system — done-for-you templates, guides, and a strategy to match.',
-      category:'consultation', tier:'diy',
-      startingAt:'$195',
+      tagline:'Your complete event planning system — done-for-you templates, guides, and strategy.',
+      category:'consultation', tier:'diy', startingAt:'$195',
       tiers:[
-        {label:'Digital kit — self-serve access',              price:'$195',   deposit:195,  final:0},
-        {label:'Kit + 60-min direction call',                  price:'$425',   deposit:425,  final:0},
-        {label:'Kit + mood board + call + sourcing list',      price:'$650',   deposit:325,  final:325},
+        {label:'Digital kit — self-serve access',               price:'$195', deposit:195, final:0},
+        {label:'Kit and 60-min direction call',                 price:'$425', deposit:425, final:0},
+        {label:'Kit, mood board, call, and sourcing list',      price:'$650', deposit:325, final:325},
       ],
       includes:[
         'Branded event planning workbook (PDF — 30+ pages)',
         'Decor sourcing checklist organized by event type',
-        'Run of show + timeline template (editable)',
-        'Shot list & content prompt guide',
+        'Run of show and timeline template (editable)',
+        'Shot list and content prompt guide',
         'Budget tracker with category breakdowns',
-        'Vendor tracker & contact sheet template',
+        'Vendor tracker and contact sheet template',
         'Packing list by event category',
         'Add-on menu with DIY pricing benchmarks',
       ],
       addons:[
-        {id:'hp1', name:'Custom mood board built for your event',      price:150, priceLabel:'+$150'},
-        {id:'hp2', name:'60-min 1:1 direction call',                   price:250, priceLabel:'+$250'},
-        {id:'hp3', name:'Day-of text support (8am–8pm)',               price:100, priceLabel:'+$100'},
-        {id:'hp4', name:'Vendor recommendation list (your city)',      price:80,  priceLabel:'+$80'},
-        {id:'hp5', name:'Personalized sourcing list for your event',   price:150, priceLabel:'+$150'},
+        {id:'hp1', name:'Custom mood board built for your event',     price:150, priceLabel:'+$150'},
+        {id:'hp2', name:'60-min 1:1 direction call',                  price:250, priceLabel:'+$250'},
+        {id:'hp3', name:'Day-of text support (8am to 8pm)',           price:100, priceLabel:'+$100'},
+        {id:'hp4', name:'Vendor recommendation list (your city)',     price:80,  priceLabel:'+$80'},
+        {id:'hp5', name:'Personalized sourcing list for your event',  price:150, priceLabel:'+$150'},
       ],
       depositNote:'Full payment due at purchase. Digital kit delivered within 48 hrs via email.',
-      notes:'For the hands-on host, emerging planner, or DIY bride who wants Haute & Host level direction without the full service investment.',
+      notes:'For the hands-on host, emerging planner, or DIY bride who wants Haute and Host level direction without the full service investment.',
     },
 
   ];
@@ -1382,9 +1344,9 @@ const hubDef = {
   events: {label:'Events',cta:'+ New Event',ctaFn:()=>openM('m-newEvent'),subs:['Overview','All Events','Event Record','Templates']},
   clients:{label:'Clients',cta:'+ New Client',ctaFn:()=>openM('m-newClient'),subs:['Overview','Pipeline','CRM','Discovery Notes','Testimonials']},
   finance:{label:'Finance',cta:'+ Invoice',ctaFn:()=>openFinInvoiceModal(),subs:['Overview','Invoices','Packages','Expenses']},
-  marketing:{label:'Marketing',cta:'+ Post',ctaFn:()=>{const c=prompt('Caption:');if(c){S.socialPosts.push({id:gid(),caption:c,platform:'Instagram',date:'',status:'draft',event:''});save();renderSub();}},subs:['Content Calendar','Social Planner','Shot Library','Strategy']},
+  marketing:{label:'Marketing',cta:'+ Post',ctaFn:()=>openNewPostModal(),subs:['Overview','Content & Social','Launch Plan','Partnerships','Client Comms']},
   brand:  {label:'Brand',cta:'',ctaFn:null,subs:['Brand Identity','Vendor Tracker','Business Plan']},
-  legal:  {label:'Legal',cta:'',ctaFn:null,subs:['Contracts','Policies','Boundaries']},
+  legal:  {label:'Legal',cta:'',ctaFn:null,subs:['Overview','Contracts','Policies & Terms','Boundaries & Scripts','Rentals']},
   studio: {label:'Studio',cta:'+ Task',ctaFn:()=>{const t=prompt('New task:');if(t){S.tasks.push({id:gid(),text:t,hub:'Studio',done:false,due:''});save();renderSub();}},subs:['Daily Tasks','Goals','Calendar']}
 };
 
@@ -1426,9 +1388,9 @@ function renderSub() {
     events:    [renderEvOverview, renderEvDash, renderEvRecord, renderTemplates],
     clients:   [renderClientsOverview, renderPipeline, renderCRM, renderDiscovery, renderTestimonials],
     finance:   [renderFinOverview, renderInvoices, renderPackages, renderExpenses],
-    marketing: [renderCalendar, renderSocial, renderShotLib, renderStrategy],
+    marketing: [renderMktOverview, renderContentSocial, renderLaunchPlan, renderPartnerships, renderClientComms],
     brand:     [renderBrandId, renderVendors, renderBizPlan],
-    legal:     [renderContracts, renderPolicies, renderBoundaries],
+    legal:     [renderLegalOverview, renderContracts, renderPoliciesTerms, renderBoundariesScripts, renderRentals],
     studio:    [renderTasks, renderGoals, renderStudioCal]
   };
   const fns = renders[hub];
@@ -3409,7 +3371,7 @@ function renderPackages() {
     <div style="margin-bottom:22px">
       <div class="sec-eye">Finance Hub</div>
       <div class="sec-title">Service <em>Packages</em></div>
-      <div class="sec-desc">Twelve offerings across personal events, brand & business, and creative consulting — or build your own from scratch.</div>
+      <div class="sec-desc">Twelve offerings across personal events, brand and business, and creative consulting — or build your own from scratch.</div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px">
       ${cats.map(c=>`<button class="btn ${PS.cat===c.key?'btn-primary':'btn-ghost'}" style="font-size:9px;padding:6px 14px"
@@ -3455,7 +3417,7 @@ function renderPackages() {
         </div>
         <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
           <div style="font-size:9px;color:var(--gray)">${(p.addons||[]).length} add-ons available</div>
-          ${(p.linkedClientId||p.linkedEventId) ? `<div style="font-size:9px;color:var(--blue);opacity:0.7">⬡ Linked</div>` : ''}
+          ${(p.linkedClientId||p.linkedEventId)?`<div style="font-size:9px;color:var(--blue);opacity:0.7">⬡ Linked</div>`:''}
         </div>
       </div>
     </div>`;
@@ -3586,14 +3548,6 @@ function renderPackages() {
               <div style="font-size:9px;color:var(--gray);margin-top:6px;font-style:italic;line-height:1.5">${p.depositNote}</div>
               ` : ''}
             </div>
-
-            <!-- Linked client/event badges -->
-            ${(p.linkedClientId||p.linkedEventId) ? `
-            <div style="padding:10px 0;border-top:1px solid rgba(255,255,255,0.06);margin-bottom:4px">
-              <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);margin-bottom:6px">Linked To</div>
-              ${p.linkedClientId ? (() => { const cl = (S.clients||[]).find(c=>c.id===p.linkedClientId); return cl ? `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;cursor:pointer" onclick="S.currentClientId='${p.linkedClientId}';navTo('clients');setTimeout(()=>switchSub(2),50)"><span style="font-size:10px;color:var(--blue)">◈ ${cl.name}</span><span style="font-size:9px;color:var(--gray)">→ Client</span></div>` : ''; })() : ''}
-              ${p.linkedEventId ? (() => { const ev = (S.events||[]).find(e=>e.id===p.linkedEventId); return ev ? `<div style="display:flex;align-items:center;gap:6px;cursor:pointer" onclick="S.currentEventId='${p.linkedEventId}';navTo('events');setTimeout(()=>switchSub(2),50)"><span style="font-size:10px;color:var(--red)">◆ ${ev.title}</span><span style="font-size:9px;color:var(--gray)">→ Event</span></div>` : ''; })() : ''}
-            </div>` : ''}
 
             <div style="display:flex;flex-direction:column;gap:8px">
               <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="pkgCreateInvoice('${p.id}')">Create Invoice →</button>
@@ -3839,7 +3793,7 @@ function pmeAddonsHTML(addons) {
   return (addons||[]).map((a,i)=>`
     <div style="display:grid;grid-template-columns:3fr 1fr auto;gap:6px;margin-bottom:6px;align-items:flex-end">
       <div class="f"><div class="fl">Add-On Name</div><input class="fi" style="font-size:11px" value="${a.name||''}" placeholder="Content capture 2 hrs" onchange="window._pmeData.addons[${i}].name=this.value"></div>
-      <div class="f"><div class="fl">Label/Price</div><input class="fi" style="font-size:11px" value="${a.priceLabel||''}" placeholder="+$350" onchange="window._pmeData.addons[${i}].priceLabel=this.value;window._pmeData.addons[${i}].price=parseInt(this.value.replace(/[^0-9]/g,''))||0"></div>
+      <div class="f"><div class="fl">Price Label</div><input class="fi" style="font-size:11px" value="${a.priceLabel||''}" placeholder="+$350" onchange="window._pmeData.addons[${i}].priceLabel=this.value;window._pmeData.addons[${i}].price=parseInt(this.value.replace(/[^0-9]/g,''))||0"></div>
       <button class="btn btn-ghost" style="font-size:10px;padding:5px 8px;align-self:flex-end" onclick="pmeRemoveAddon(${i})">✕</button>
     </div>`).join('');
 }
@@ -3863,11 +3817,10 @@ function pmeRemoveAddon(i) {
   window._pmeData.addons.splice(i,1);
   document.getElementById('pme-addons-wrap').innerHTML = pmeAddonsHTML(window._pmeData.addons);
 }
-
 function pkgEditModal(pkgId) {
   const p = S.packages.find(p=>p.id===pkgId);
   if (!p) return;
-  window._pmeData = JSON.parse(JSON.stringify({tiers: p.tiers||[], addons: p.addons||[]}));
+  window._pmeData = JSON.parse(JSON.stringify({tiers:p.tiers||[], addons:p.addons||[]}));
   document.getElementById('pme-id').value = pkgId;
   document.getElementById('pme-name').value = p.name||'';
   document.getElementById('pme-tagline').value = p.tagline||'';
@@ -3878,7 +3831,6 @@ function pkgEditModal(pkgId) {
   document.getElementById('pme-notes').value = p.notes||'';
   document.getElementById('pme-tiers-wrap').innerHTML = pmeTiersHTML(window._pmeData.tiers);
   document.getElementById('pme-addons-wrap').innerHTML = pmeAddonsHTML(window._pmeData.addons);
-  // Populate client & event dropdowns
   const clSel = document.getElementById('pme-client');
   clSel.innerHTML = '<option value="">— None —</option>' + (S.clients||[]).map(c=>`<option value="${c.id}" ${p.linkedClientId===c.id?'selected':''}>${c.name}</option>`).join('');
   const evSel = document.getElementById('pme-event');
@@ -3888,39 +3840,28 @@ function pkgEditModal(pkgId) {
 }
 function updPkg(id,field,val){const p=S.packages.find(p=>p.id===id);if(p){p[field]=val;}}
 function deletePkg(id){if(!confirm('Remove this package?'))return;S.packages=S.packages.filter(p=>p.id!==id);save();pkgBack();}
-
 function savePkgModal() {
   const id = document.getElementById('pme-id').value;
   const name = document.getElementById('pme-name').value.trim();
   if (!name) { toast('Package needs a name'); return; }
-  const includesRaw = document.getElementById('pme-includes').value;
-  const includes = includesRaw.split('\n').map(s=>s.trim()).filter(Boolean);
-  const linkedClientId = document.getElementById('pme-client').value || null;
-  const linkedEventId  = document.getElementById('pme-event').value  || null;
+  const includes = document.getElementById('pme-includes').value.split('\n').map(s=>s.trim()).filter(Boolean);
   const data = {
-    name,
-    tagline:       document.getElementById('pme-tagline').value,
-    category:      document.getElementById('pme-cat').value,
-    startingAt:    document.getElementById('pme-starting').value,
-    includes,
-    depositNote:   document.getElementById('pme-deposit-note').value,
-    notes:         document.getElementById('pme-notes').value,
-    tiers:         (window._pmeData||{}).tiers || [],
-    addons:        (window._pmeData||{}).addons || [],
-    linkedClientId, linkedEventId,
+    name, tagline: document.getElementById('pme-tagline').value,
+    category: document.getElementById('pme-cat').value,
+    startingAt: document.getElementById('pme-starting').value,
+    includes, depositNote: document.getElementById('pme-deposit-note').value,
+    notes: document.getElementById('pme-notes').value,
+    tiers: (window._pmeData||{}).tiers||[],
+    addons: (window._pmeData||{}).addons||[],
+    linkedClientId: document.getElementById('pme-client').value||null,
+    linkedEventId:  document.getElementById('pme-event').value||null,
   };
-  if (id) {
-    const p = S.packages.find(p=>p.id===id);
-    if (p) Object.assign(p, data);
-  } else {
-    S.packages.push({id:gid(), tier:'custom', ...data});
-  }
+  if (id) { const p=S.packages.find(p=>p.id===id); if(p) Object.assign(p,data); }
+  else { S.packages.push({id:gid(), tier:'custom', ...data}); }
   save();
   document.getElementById('pkg-edit-modal').style.display = 'none';
-  renderPackages();
-  toast('Package saved');
+  renderPackages(); toast('Package saved');
 }
-
 function addPkgModal() {
   window._pmeData = {tiers:[{label:'',price:'',deposit:null,final:null}], addons:[]};
   document.getElementById('pme-id').value = '';
@@ -3929,14 +3870,12 @@ function addPkgModal() {
   document.getElementById('pme-cat').value = 'personal';
   document.getElementById('pme-starting').value = '';
   document.getElementById('pme-includes').value = '';
-  document.getElementById('pme-deposit-note').value = '30% deposit due at booking. Balance due 14 days before event.';
+  document.getElementById('pme-deposit-note').value = '30% deposit due at booking.';
   document.getElementById('pme-notes').value = '';
   document.getElementById('pme-tiers-wrap').innerHTML = pmeTiersHTML(window._pmeData.tiers);
   document.getElementById('pme-addons-wrap').innerHTML = pmeAddonsHTML(window._pmeData.addons);
-  const clSel = document.getElementById('pme-client');
-  clSel.innerHTML = '<option value="">— None —</option>' + (S.clients||[]).map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
-  const evSel = document.getElementById('pme-event');
-  evSel.innerHTML = '<option value="">— None —</option>' + (S.events||[]).map(e=>`<option value="${e.id}">${e.title}</option>`).join('');
+  document.getElementById('pme-client').innerHTML = '<option value="">— None —</option>' + (S.clients||[]).map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  document.getElementById('pme-event').innerHTML  = '<option value="">— None —</option>' + (S.events||[]).map(e=>`<option value="${e.id}">${e.title}</option>`).join('');
   document.getElementById('pkg-modal-title').textContent = 'New Package';
   document.getElementById('pkg-edit-modal').style.display = 'flex';
 }
@@ -4119,45 +4058,863 @@ function createInvoice() {
 // ══════════════════════════════════════════════════
 // MARKETING
 // ══════════════════════════════════════════════════
-function renderCalendar(){
-  const now=new Date();const yr=now.getFullYear(),mo=now.getMonth();
-  const first=new Date(yr,mo,1).getDay(),days=new Date(yr,mo+1,0).getDate();
-  const dn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  let cells='';
-  for(let i=0;i<first;i++)cells+=`<div class="cal-day other"><div class="cal-n">${new Date(yr,mo,-(first-i-1)).getDate()}</div></div>`;
+
+// ── Helpers ──────────────────────────────────────
+function mktEl() { return document.getElementById('marketing-content'); }
+function openNewPostModal() {
+  const m = document.getElementById('m-newPost');
+  if (m) { m.style.display='flex'; return; }
+  const platform = prompt('Platform (Instagram / TikTok / Pinterest / Email):','Instagram');
+  if (!platform) return;
+  const caption = prompt('Caption or topic:');
+  if (!caption) return;
+  const date = prompt('Scheduled date (YYYY-MM-DD):','');
+  S.socialPosts.push({id:gid(), caption, platform, date:date||'', status:'draft', event:'', format:'', notes:''});
+  save(); renderContentSocial();
+}
+
+// ── 1. OVERVIEW ──────────────────────────────────
+function renderMktOverview() {
+  const el = mktEl(); if (!el) return;
+  const totalPosts = (S.socialPosts||[]).length;
+  const scheduled  = (S.socialPosts||[]).filter(p=>p.status==='scheduled').length;
+  const posted     = (S.socialPosts||[]).filter(p=>p.status==='posted').length;
+  const partners   = (S.partnerships||[]).length;
+  const sentComms  = (S.commsLog||[]).length;
+  el.innerHTML = `
+  <div style="margin-bottom:24px">
+    <div class="sec-eye">Marketing Hub</div>
+    <div class="sec-title">Marketing <em>Overview</em></div>
+    <div class="sec-desc">Your strategy, content pipeline, launch plans, and client communications — all in one place.</div>
+  </div>
+
+  <!-- Stats row -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px">
+    ${[
+      {val:totalPosts, lbl:'Total Posts', color:'var(--blue)'},
+      {val:scheduled,  lbl:'Scheduled',   color:'var(--red)'},
+      {val:posted,     lbl:'Posted',      color:'var(--blue)'},
+      {val:partners,   lbl:'Partners',    color:'var(--white)'},
+    ].map(s=>`<div class="dc" style="text-align:center;padding:18px 12px">
+      <div style="font-family:'CanelaText',serif;font-size:32px;color:${s.color};line-height:1">${s.val}</div>
+      <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray);margin-top:4px">${s.lbl}</div>
+    </div>`).join('')}
+  </div>
+
+  <!-- Strategy pillars -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div class="dc">
+      <div class="dc-head"><div class="dc-title">Brand Voice & Tone</div><span class="btn btn-ghost" style="font-size:9px;padding:3px 10px;cursor:pointer" onclick="switchSub(1)">Edit →</span></div>
+      <div style="padding:14px 16px;font-size:12px;color:var(--gray2);line-height:1.6;font-style:italic">
+        ${S.strategy?.voice || '<span style="color:var(--gray)">Not set — go to Content & Social tab to fill this in.</span>'}
+      </div>
+    </div>
+    <div class="dc">
+      <div class="dc-head"><div class="dc-title">Content Pillars</div><span class="btn btn-ghost" style="font-size:9px;padding:3px 10px;cursor:pointer" onclick="switchSub(1)">Edit →</span></div>
+      <div style="padding:14px 16px;font-size:12px;color:var(--gray2);line-height:1.6">
+        ${S.strategy?.pillars || '<span style="color:var(--gray)">Not set yet.</span>'}
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick actions -->
+  <div class="dc" style="margin-bottom:16px">
+    <div class="dc-head"><div class="dc-title">Quick Actions</div></div>
+    <div style="padding:14px 16px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="switchSub(1);setTimeout(()=>document.getElementById('mkt-new-post-btn')?.click(),200)">+ New Post</button>
+      <button class="btn btn-ghost" onclick="switchSub(2)">Plan Launch Campaign →</button>
+      <button class="btn btn-ghost" onclick="switchSub(3)">Manage Partnerships →</button>
+      <button class="btn btn-ghost" onclick="switchSub(4)">Client Communications →</button>
+    </div>
+  </div>
+
+  <!-- Content idea library -->
+  <div class="dc" style="margin-bottom:16px">
+    <div class="dc-head"><div class="dc-title">Ongoing Content Idea Library</div></div>
+    <div style="padding:16px">
+      ${[
+        {cat:'Creative Process', icon:'✦', ideas:['Show sketches, mood boards & material swatches','Behind-the-scenes concept development','Vendor sourcing day walk-through','Before & after: blank space to styled event']},
+        {cat:'Tips & Education', icon:'◈', ideas:['Hosting tips & styling advice','Planning checklists for DIY hosts','Budget breakdowns & money-saving hacks','How to brief a vendor or creative']},
+        {cat:'Behind the Scenes', icon:'◉', ideas:['Candid setup & vendor collaboration moments','Breakdown & inventory after the event','Your kit, tools & supply haul','Day-in-the-life of an event day']},
+        {cat:'Client Stories',   icon:'◎', ideas:['Testimonials with the event story','Before & after concept to execution','What the client wanted vs what we built','Reaction moments & guest experiences']},
+        {cat:'Portfolio Features',icon:'◆',ideas:['Tablescape hero shots','Detail shots: menus, signage, florals','Wide room shots & full layout reveals','Reel: full event in 30 seconds']},
+        {cat:'Storytelling',     icon:'▦', ideas:['Morning light editorial tablescapes','Overhead food & decor flat lays','Slow-motion champagne pour or floral arrangement','Candid laughter & emotional connection moments']},
+      ].map(g=>`
+      <div style="margin-bottom:16px">
+        <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;font-weight:600">${g.icon} ${g.cat}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          ${g.ideas.map(idea=>`<span style="font-size:10px;padding:4px 10px;border-radius:3px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:var(--gray2)">${idea}</span>`).join('')}
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- Sample caption prompts -->
+  <div class="dc">
+    <div class="dc-head"><div class="dc-title">Caption Prompt Starters</div><span style="font-size:9px;color:var(--gray)">Click to copy</span></div>
+    <div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px">
+      ${[
+        'Every detail was designed to make our guests feel like they stepped into an editorial spread. From hand-painted menus to the scent of freshly baked pastries, this celebration was all about immersion.',
+        'Behind every beautiful event is a team of creatives, countless sketches, and late-night brainstorms. Here\'s a peek into how we brought [event name] to life.',
+        'When marketing meets experiential design, you get stories that live beyond the moment. Let\'s create something unforgettable together.',
+        'The brief was simple: make it feel like a magazine. The execution? Anything but. Here\'s the story behind the concept.',
+        'We don\'t style events. We build worlds. This one started with a single mood board and became something we\'re still thinking about.',
+      ].map(c=>`<div style="padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:6px;font-size:11px;color:var(--gray2);line-height:1.6;cursor:pointer" onclick="navigator.clipboard.writeText(this.innerText.trim());this.style.borderColor='var(--red)';setTimeout(()=>this.style.borderColor='',1500)" title="Click to copy">${c}</div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ── 2. CONTENT & SOCIAL ──────────────────────────
+function renderContentSocial() {
+  const el = mktEl(); if (!el) return;
+  const now = new Date();
+  const yr = now.getFullYear(), mo = now.getMonth();
+  const first = new Date(yr,mo,1).getDay(), days = new Date(yr,mo+1,0).getDate();
+  const dn = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const moName = now.toLocaleString('en',{month:'long'});
+  const sc = {draft:'p-gray', scheduled:'p-blue', posted:'p-green'};
+  const platforms = ['Instagram','TikTok','Pinterest','Email','Blog'];
+  const formats   = ['Reel','Carousel','Static Post','Story','Video','Newsletter','Blog Post','BTS'];
+  const statuses  = ['draft','scheduled','posted'];
+
+  let cells = '';
+  for(let i=0;i<first;i++) cells+=`<div class="cal-day other"><div class="cal-n">${new Date(yr,mo,-(first-i-1)).getDate()}</div></div>`;
   for(let d=1;d<=days;d++){
-    const it=d===now.getDate();
-    const ds=`${yr}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const evs=S.events.filter(e=>e.date===ds);const ps=S.socialPosts.filter(p=>p.date===ds);
-    cells+=`<div class="cal-day ${it?'today':''}"><div class="cal-n ${it?'today':''}">${d}</div>${evs.map(e=>`<div class="cal-ev">${e.title.split(',')[0].substring(0,12)}</div>`).join('')}${ps.map(p=>`<div class="cal-ev blue">${p.platform}</div>`).join('')}</div>`;
+    const it = d===now.getDate();
+    const ds = `${yr}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const evs = (S.events||[]).filter(e=>e.date===ds);
+    const ps  = (S.socialPosts||[]).filter(p=>p.date===ds);
+    cells += `<div class="cal-day ${it?'today':''}">
+      <div class="cal-n ${it?'today':''}">${d}</div>
+      ${evs.map(e=>`<div class="cal-ev">${e.title.split(',')[0].substring(0,12)}</div>`).join('')}
+      ${ps.map(p=>`<div class="cal-ev blue">${p.platform.substring(0,2)}: ${(p.caption||'').substring(0,10)}</div>`).join('')}
+    </div>`;
   }
-  document.getElementById('marketing-content').innerHTML=`<div class="sec-head"><div class="sec-eye">Marketing Hub</div><div class="sec-title">Content <em>Calendar</em></div><div class="sec-desc">${now.toLocaleString('en',{month:'long'})} ${yr}</div></div>
-  <div class="dc"><div class="dc-body"><div class="cal-grid">${dn.map(d=>`<div class="cal-dh">${d}</div>`).join('')}${cells}</div></div></div>`;
+
+  el.innerHTML = `
+  <div style="margin-bottom:20px">
+    <div class="sec-eye">Marketing Hub</div>
+    <div class="sec-title">Content & <em>Social</em></div>
+    <div class="sec-desc">Your content calendar, social post planner, and brand strategy — all in one place.</div>
+  </div>
+
+  <!-- Calendar -->
+  <div class="dc" style="margin-bottom:16px">
+    <div class="dc-head"><div class="dc-title">${moName} ${yr} — Content Calendar</div></div>
+    <div class="dc-body">
+      <div class="cal-grid">${dn.map(d=>`<div class="cal-dh">${d}</div>`).join('')}${cells}</div>
+    </div>
+  </div>
+
+  <!-- Post planner table -->
+  <div class="dc" style="margin-bottom:14px">
+    <div class="dc-head">
+      <div class="dc-title">Post Planner</div>
+      <button id="mkt-new-post-btn" class="btn btn-primary" style="font-size:9px" onclick="mktAddPost()">+ New Post</button>
+    </div>
+    <div class="scroll-x">
+      <table class="ht">
+        <thead><tr><th>Date</th><th>Platform</th><th>Format</th><th>Topic / Caption</th><th>Event</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          ${(S.socialPosts||[]).map((p,i)=>`
+          <tr>
+            <td><input class="fi" style="font-size:11px;width:110px" value="${p.date||''}" placeholder="YYYY-MM-DD" onchange="S.socialPosts[${i}].date=this.value;save()"></td>
+            <td><select class="fs" style="font-size:11px" onchange="S.socialPosts[${i}].platform=this.value;save()">
+              ${platforms.map(pl=>`<option ${p.platform===pl?'selected':''}>${pl}</option>`).join('')}
+            </select></td>
+            <td><select class="fs" style="font-size:11px" onchange="S.socialPosts[${i}].format=this.value;save()">
+              ${formats.map(f=>`<option ${p.format===f?'selected':''}>${f}</option>`).join('')}
+            </select></td>
+            <td><input class="fi" style="font-size:11px;min-width:200px" value="${(p.caption||'').replace(/"/g,'&quot;')}" placeholder="Topic or caption..." onchange="S.socialPosts[${i}].caption=this.value;save()"></td>
+            <td><select class="fs" style="font-size:11px" onchange="S.socialPosts[${i}].event=this.value;save()">
+              <option value="">— None —</option>
+              ${(S.events||[]).map(e=>`<option value="${e.title}" ${p.event===e.title?'selected':''}>${e.title.substring(0,20)}</option>`).join('')}
+            </select></td>
+            <td><select class="fs" style="font-size:11px" onchange="S.socialPosts[${i}].status=this.value;save()">
+              ${statuses.map(s=>`<option ${p.status===s?'selected':''}>${s}</option>`).join('')}
+            </select></td>
+            <td><button class="btn btn-ghost" style="font-size:10px;padding:4px 8px;color:var(--gray)" onclick="mktDeletePost(${i})">✕</button></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <button class="add-row" onclick="mktAddPost()"><span class="ar-icon">+</span>Add Post</button>
+  </div>
+
+  <!-- Strategy -->
+  <div class="dc">
+    <div class="dc-head"><div class="dc-title">Brand & Content Strategy</div></div>
+    <div class="dc-body">
+      <div class="fr"><div class="f"><div class="fl">Brand Voice & Tone</div><textarea class="ft" id="s-voice" oninput="saveSt()" placeholder="How does Haute & Host sound? Editorial. Warm. Intentional. Cinematic.">${S.strategy?.voice||''}</textarea></div>
+      <div class="f"><div class="fl">Target Audience</div><textarea class="ft" id="s-aud" oninput="saveSt()" placeholder="Who are you speaking to? Describe them in detail.">${S.strategy?.audience||''}</textarea></div></div>
+      <div class="fr"><div class="f"><div class="fl">Content Pillars (3–5 themes)</div><textarea class="ft" id="s-pil" oninput="saveSt()" placeholder="e.g. Portfolio, BTS, Tips, Client Stories, Brand Collabs">${S.strategy?.pillars||''}</textarea></div>
+      <div class="f"><div class="fl">Platform Strategy</div><textarea class="ft" id="s-plat" oninput="saveSt()" placeholder="Instagram = portfolio + reels. Pinterest = mood. TikTok = BTS...">${S.strategy?.platforms||''}</textarea></div></div>
+      <div class="fr full"><div class="f"><div class="fl">Posting Cadence & Goals</div><textarea class="ft" id="s-cadence" oninput="saveSt()" placeholder="e.g. 4x/week IG, 2x TikTok, monthly newsletter...">${S.strategy?.cadence||''}</textarea></div></div>
+    </div>
+  </div>`;
 }
-function renderSocial(){
-  const sc={draft:'p-gray',scheduled:'p-blue',posted:'p-green'};
-  document.getElementById('marketing-content').innerHTML=`<div class="sec-head"><div class="sec-eye">Marketing Hub</div><div class="sec-title">Social <em>Planner</em></div></div>
-  <div class="dc"><div class="dc-head"><div class="dc-title">Planned Posts</div><button class="btn btn-blue" onclick="addPost()">+ New Post</button></div>
-  <div class="scroll-x"><table class="ht"><thead><tr><th>Platform</th><th>Caption</th><th>Date</th><th>Event</th><th>Status</th></tr></thead>
-  <tbody>${S.socialPosts.map(p=>`<tr><td><span class="pill p-blue">${p.platform}</span></td><td style="color:var(--gray2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.caption}</td><td style="color:var(--gray2)">${p.date||'—'}</td><td style="color:var(--gray2)">${p.event||'—'}</td><td><span class="pill ${sc[p.status]||'p-gray'}">${p.status}</span></td></tr>`).join('')}</tbody></table></div>
-  <button class="add-row" onclick="addPost()"><span class="ar-icon">+</span>Add Post</button></div>`;
+function mktAddPost() {
+  if(!S.socialPosts) S.socialPosts=[];
+  S.socialPosts.push({id:gid(),caption:'',platform:'Instagram',format:'Reel',date:'',status:'draft',event:'',notes:''});
+  save(); renderContentSocial();
 }
-function addPost(){const c=prompt('Caption:');if(!c)return;const pl=prompt('Platform:','Instagram');const d=prompt('Date (YYYY-MM-DD):');S.socialPosts.push({id:gid(),caption:c,platform:pl||'Instagram',date:d||'',status:'draft',event:''});save();renderSocial();}
-function renderShotLib(){
-  const byEv={};S.events.forEach(e=>(e.shots||[]).forEach(s=>{ if(!byEv[e.title])byEv[e.title]=[];byEv[e.title].push(s);}));
-  document.getElementById('marketing-content').innerHTML=`<div class="sec-head"><div class="sec-eye">Marketing Hub</div><div class="sec-title">Shot <em>Library</em></div><div class="sec-desc">All captured content across every event.</div></div>
-  ${Object.entries(byEv).map(([evt,shots])=>`<div class="dc" style="margin-bottom:12px"><div class="dc-head"><div class="dc-title">${evt}</div></div><div class="dc-body"><div class="shot-g">${shots.map(s=>`<div class="shot-c"><div class="shot-cat">${s.category}</div><div class="shot-title">${s.title}</div>${s.notes?`<div class="shot-note">${s.notes}</div>`:''}</div>`).join('')}</div></div></div>`).join('')}
-  ${!Object.keys(byEv).length?'<div style="color:var(--gray);font-size:12px">No shots captured yet.</div>':''}`;
+function mktDeletePost(i) {
+  if(!confirm('Remove this post?')) return;
+  S.socialPosts.splice(i,1); save(); renderContentSocial();
 }
-function renderStrategy(){
-  document.getElementById('marketing-content').innerHTML=`<div class="sec-head"><div class="sec-eye">Marketing Hub</div><div class="sec-title">Marketing <em>Strategy</em></div></div>
-  <div class="dc"><div class="dc-body">
-    <div class="fr full"><div class="f"><div class="fl">Brand Voice & Tone</div><textarea class="ft" id="s-voice" oninput="saveSt()" placeholder="How does Haute & Host sound? What energy, what register?">${S.strategy?.voice||''}</textarea></div></div>
-    <div class="fr"><div class="f"><div class="fl">Target Audience</div><textarea class="ft" id="s-aud" oninput="saveSt()" placeholder="Who are you speaking to?">${S.strategy?.audience||''}</textarea></div><div class="f"><div class="fl">Content Pillars</div><textarea class="ft" id="s-pil" oninput="saveSt()" placeholder="The 3–5 recurring content themes">${S.strategy?.pillars||''}</textarea></div></div>
-    <div class="fr full"><div class="f"><div class="fl">Platform Strategy</div><textarea class="ft" id="s-plat" oninput="saveSt()" placeholder="Instagram, TikTok, Pinterest — what role does each play?">${S.strategy?.platforms||''}</textarea></div></div>
-  </div></div>`;
+function saveSt(){
+  if(!S.strategy)S.strategy={};
+  const map={voice:'voice',aud:'audience',pil:'pillars',plat:'platforms',cadence:'cadence'};
+  Object.entries(map).forEach(([k,v])=>{const el=document.getElementById('s-'+k);if(el)S.strategy[v]=el.value;});
+  clearTimeout(erT);erT=setTimeout(save,700);
 }
-function saveSt(){if(!S.strategy)S.strategy={};['voice','aud','pil','plat'].forEach(k=>{const map={voice:'voice',aud:'audience',pil:'pillars',plat:'platforms'};const el=document.getElementById('s-'+k);if(el)S.strategy[map[k]]=el.value;});clearTimeout(erT);erT=setTimeout(save,700);}
+
+// ── 3. LAUNCH PLAN ───────────────────────────────
+function renderLaunchPlan() {
+  const el = mktEl(); if (!el) return;
+  el.innerHTML = `
+  <div style="margin-bottom:20px">
+    <div class="sec-eye">Marketing Hub</div>
+    <div class="sec-title">Launch <em>Campaign Plan</em></div>
+    <div class="sec-desc">Structure every event or offering launch across three phases — pre-launch, soft launch, and ongoing.</div>
+  </div>
+
+  ${[
+    {key:'pre', label:'Pre-Launch', color:'var(--blue)', icon:'◎',
+     defaults:[
+       'Tease the concept with mood board snippets and behind-the-scenes planning content',
+       'Share countdown posts and stories across all platforms to build anticipation',
+       'Create a landing page or link-in-bio page to collect inquiries or RSVPs',
+       'Brief any partner brands or collaborators on timing and messaging',
+       'Film BTS of the planning process — brainstorm sessions, vendor sourcing, moodboard builds',
+     ]},
+    {key:'soft', label:'Soft Launch', color:'var(--red)', icon:'✦',
+     defaults:[
+       'Reveal the full concept with curated, high-resolution images and a narrative caption',
+       'Collaborate with partners or influencers to cross-promote on launch day',
+       'Share client testimonials or quotes from past similar experiences to build credibility',
+       'Post a Reel or TikTok showing the event reveal or transformation',
+       'Send an email to your list with the full story and a booking CTA',
+     ]},
+    {key:'ongoing', label:'Ongoing Momentum', color:'var(--white)', icon:'◈',
+     defaults:[
+       'Post event highlights, detail shots, and full-gallery previews across platforms',
+       'Create a blog post or newsletter recapping the creative story behind the event',
+       'Repurpose content: turn reels into Pinterest boards, captions into quote graphics',
+       'Pitch the event to relevant publications, blogs, or styled shoot features',
+       'Re-share content at seasonal moments — anniversaries, trend cycles, throwbacks',
+     ]},
+  ].map(phase=>`
+  <div class="dc" style="margin-bottom:14px">
+    <div class="dc-head">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:14px;color:${phase.color}">${phase.icon}</span>
+        <div class="dc-title">${phase.label}</div>
+      </div>
+    </div>
+    <div style="padding:14px 16px">
+      <div style="margin-bottom:12px">
+        ${phase.defaults.map((item,i)=>`
+        <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:7px">
+          <span style="color:${phase.color};font-size:11px;flex-shrink:0;margin-top:2px">✓</span>
+          <span style="font-size:12px;color:var(--gray2);line-height:1.5">${item}</span>
+        </div>`).join('')}
+      </div>
+      <div class="f"><div class="fl">Your notes for this phase</div>
+        <textarea class="ft" id="lp-${phase.key}" oninput="saveLaunchPlan()" placeholder="Add your own ideas or customize this phase..." style="min-height:70px">${S.launchPlan?.[phase.key]||''}</textarea>
+      </div>
+    </div>
+  </div>`).join('')}
+
+  <!-- Portfolio builder -->
+  <div class="dc" style="margin-bottom:14px">
+    <div class="dc-head"><div class="dc-title">Portfolio Builder Template</div><span style="font-size:9px;color:var(--gray)">Plan content capture for every event</span></div>
+    <div class="scroll-x">
+      <table class="ht">
+        <thead><tr><th>Deliverable</th><th>Channel</th><th>Notes</th></tr></thead>
+        <tbody>
+          ${[
+            ['High-resolution hero shots (wide, medium, detail)', 'Website & Portfolio', 'Capture all three angles — full room, 3/4 scene, close detail'],
+            ['Vertical video clips (15–30 sec)', 'IG Reels & TikTok', 'Film setup transformation, guest arrival, key moments'],
+            ['Behind-the-scenes stills & clips', 'IG Stories & BTS', 'Document the creative process, not just the polished result'],
+            ['Flat lay detail shots', 'Pinterest & IG Feed', 'Menus, signage, florals, tablescape overhead'],
+            ['Client testimonial (video or written)', 'Marketing & Website', 'Capture within 48 hrs post-event while the memory is fresh'],
+            ['Slow-motion signature moment', 'Reels & TikTok', 'Champagne pour, floral arrangement, candle light, confetti'],
+          ].map(r=>`<tr>${r.map((c,i)=>`<td style="color:${i===0?'var(--white)':'var(--gray2)'};font-size:${i===2?'11px':'12px'}">${c}</td>`).join('')}</tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div class="f" style="padding:12px 16px"><div class="fl">Event-specific portfolio notes</div>
+      <textarea class="ft" id="lp-portfolio" oninput="saveLaunchPlan()" placeholder="What are you planning to capture for your next event?">${S.launchPlan?.portfolio||''}</textarea>
+    </div>
+  </div>`;
+}
+function saveLaunchPlan(){
+  if(!S.launchPlan)S.launchPlan={};
+  ['pre','soft','ongoing','portfolio'].forEach(k=>{
+    const el=document.getElementById('lp-'+k);if(el)S.launchPlan[k]=el.value;
+  });
+  clearTimeout(erT);erT=setTimeout(save,700);
+}
+
+// ── 4. PARTNERSHIPS ──────────────────────────────
+function renderPartnerships() {
+  const el = mktEl(); if (!el) return;
+  const partners = S.partnerships||[];
+  el.innerHTML = `
+  <div style="margin-bottom:20px">
+    <div class="sec-eye">Marketing Hub</div>
+    <div class="sec-title">Brand <em>Partnerships</em></div>
+    <div class="sec-desc">Track dream collaborators, outreach status, and partnership opportunities. Every great collab starts with a targeted list.</div>
+  </div>
+
+  <!-- Partner tracker -->
+  <div class="dc" style="margin-bottom:14px">
+    <div class="dc-head"><div class="dc-title">Partnership Tracker</div>
+      <button class="btn btn-primary" style="font-size:9px" onclick="addPartner()">+ Add Partner</button>
+    </div>
+    <div class="scroll-x">
+      <table class="ht">
+        <thead><tr><th>Brand / Partner</th><th>Type</th><th>Alignment</th><th>Contact</th><th>Status</th><th>Notes</th><th></th></tr></thead>
+        <tbody>
+          ${partners.map((p,i)=>`<tr>
+            <td style="font-weight:500"><input class="fi" style="font-size:11px" value="${p.name||''}" onchange="S.partnerships[${i}].name=this.value;save()"></td>
+            <td><select class="fs" style="font-size:10px" onchange="S.partnerships[${i}].type=this.value;save()">
+              ${['Influencer','Brand','Venue','Vendor','Publication','Other'].map(t=>`<option ${p.type===t?'selected':''}>${t}</option>`).join('')}
+            </select></td>
+            <td><input class="fi" style="font-size:11px" value="${p.alignment||''}" placeholder="e.g. luxury lifestyle" onchange="S.partnerships[${i}].alignment=this.value;save()"></td>
+            <td><input class="fi" style="font-size:11px" value="${p.contact||''}" placeholder="@handle or email" onchange="S.partnerships[${i}].contact=this.value;save()"></td>
+            <td><select class="fs" style="font-size:10px" onchange="S.partnerships[${i}].status=this.value;save()">
+              ${['Dream List','Researching','Outreach Sent','In Conversation','Active Partner','Pass'].map(s=>`<option ${p.status===s?'selected':''}>${s}</option>`).join('')}
+            </select></td>
+            <td><input class="fi" style="font-size:11px" value="${p.notes||''}" placeholder="Notes..." onchange="S.partnerships[${i}].notes=this.value;save()"></td>
+            <td><button class="btn btn-ghost" style="font-size:10px;padding:4px 8px" onclick="S.partnerships.splice(${i},1);save();renderPartnerships()">✕</button></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <button class="add-row" onclick="addPartner()"><span class="ar-icon">+</span>Add Partner</button>
+  </div>
+
+  <!-- Pitch deck guide -->
+  <div class="dc" style="margin-bottom:14px">
+    <div class="dc-head"><div class="dc-title">Pitch Deck & Cold Outreach Guide</div></div>
+    <div style="padding:16px">
+      <div style="margin-bottom:14px">
+        <div style="font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;font-weight:600">Every pitch should include:</div>
+        ${['A concise overview of Haute & Host — who you are, what you do, and what makes your events different','Case studies of 1–2 past events with specifics: aesthetic, scale, outcome, and any metrics (engagement, reach, press)','A clear value proposition: what does the partner get? (Content, exposure, co-branded moments, tagged posts)','Social proof: testimonials, portfolio shots, press features if any','A specific and easy call to action: "I\'d love to jump on a 20-minute discovery call this week."'].map(item=>`
+        <div style="display:flex;gap:10px;margin-bottom:7px">
+          <span style="color:var(--red);font-size:11px;flex-shrink:0">✓</span>
+          <span style="font-size:12px;color:var(--gray2);line-height:1.5">${item}</span>
+        </div>`).join('')}
+      </div>
+      <div class="f"><div class="fl">Your pitch notes / deck outline</div>
+        <textarea class="ft" id="pt-notes" oninput="if(!S.strategy)S.strategy={};S.strategy.pitchNotes=this.value;clearTimeout(erT);erT=setTimeout(save,700)" style="min-height:90px" placeholder="Draft your pitch narrative here...">${S.strategy?.pitchNotes||''}</textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonial tracker -->
+  <div class="dc">
+    <div class="dc-head"><div class="dc-title">Client Testimonial Tracker</div>
+      <button class="btn btn-ghost" style="font-size:9px" onclick="addTestimonialMkt()">+ Add</button>
+    </div>
+    <div class="scroll-x">
+      <table class="ht">
+        <thead><tr><th>Event</th><th>Client</th><th>Testimonial</th><th>Permission to Use</th><th>Date</th><th></th></tr></thead>
+        <tbody>
+          ${(S.testimonials||[]).map((t,i)=>`<tr>
+            <td style="color:var(--gray2);font-size:11px">${t.event||'—'}</td>
+            <td style="font-weight:500">${t.client||'—'}</td>
+            <td style="color:var(--gray2);font-size:11px;max-width:260px;white-space:normal;line-height:1.4">"${t.quote||''}"</td>
+            <td><span class="pill ${t.permission?'p-green':'p-gray'}" style="cursor:pointer" onclick="S.testimonials[${i}].permission=!S.testimonials[${i}].permission;save();renderPartnerships()">${t.permission?'Yes':'Pending'}</span></td>
+            <td style="color:var(--gray2);font-size:11px">${t.date||'—'}</td>
+            <td><button class="btn btn-ghost" style="font-size:10px;padding:4px 8px" onclick="S.testimonials.splice(${i},1);save();renderPartnerships()">✕</button></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <button class="add-row" onclick="addTestimonialMkt()"><span class="ar-icon">+</span>Add Testimonial</button>
+  </div>`;
+}
+function addPartner(){
+  if(!S.partnerships)S.partnerships=[];
+  S.partnerships.push({id:gid(),name:'',type:'Brand',alignment:'',contact:'',status:'Dream List',notes:''});
+  save();renderPartnerships();
+}
+function addTestimonialMkt(){
+  if(!S.testimonials)S.testimonials=[];
+  S.testimonials.push({id:gid(),quote:'',client:'',event:'',permission:false,date:new Date().toISOString().split('T')[0]});
+  save();renderPartnerships();
+}
+
+// ── 5. CLIENT COMMS ──────────────────────────────
+function renderClientComms() {
+  const el = mktEl(); if (!el) return;
+  const templates = [
+    {id:'first_inquiry', label:'First Response to Inquiry', tag:'New Lead',
+     subject:'Re: Event Inquiry — Haute & Host',
+     body:`Hi [Name],\n\nThank you so much for reaching out — I love that you found us, and I'd love to learn more about what you're envisioning.\n\nHaute & Host is a full-service creative event production studio. We handle everything from the concept and mood board to sourcing, styling, and day-of execution — so you can actually enjoy the experience you've been dreaming about.\n\nTo make sure I can give you the most helpful response, could you share a few details?\n\n• What type of event are you planning?\n• Approximate guest count and date (or date range)?\n• Do you have a venue in mind, or are you still searching?\n• What's your overall vision or feeling you're going for?\n\nI'll follow up with some initial thoughts and our service packages as soon as I hear back. In the meantime, feel free to explore our portfolio at [your website].\n\nLooking forward to connecting,\n[Your name]\nHaute & Host`},
+
+    {id:'booking_confirmation', label:'Booking Confirmation', tag:'Admin',
+     subject:'You\'re officially booked — Haute & Host ✦',
+     body:`Hi [Name],\n\nThis is the email I love sending most — you're officially on the calendar!\n\nHere's a quick recap of what we've agreed on:\n\n✦ Event: [Event name or type]\n✦ Date: [Date]\n✦ Package: [Package name]\n✦ Deposit paid: $[Amount] on [Date]\n✦ Balance due: $[Amount] by [Date]\n\nNext steps:\n1. I'll send over your client contract for review and signature within 24 hours.\n2. Once signed, I'll begin working on your initial creative concept.\n3. We'll schedule a 30-minute kick-off call to align on vision, timeline, and any must-haves.\n\nI'm genuinely excited about this one. Let's make something beautiful.\n\nWarmly,\n[Your name]\nHaute & Host`},
+
+    {id:'proposal_sent', label:'Proposal Sent Follow-Up', tag:'Sales',
+     subject:'Following up — your Haute & Host proposal',
+     body:`Hi [Name],\n\nI wanted to follow up on the proposal I sent over on [Date]. I know these decisions take some thought, and I want to make sure you have everything you need to move forward confidently.\n\nA few things worth noting:\n\n• My calendar for [Month/Season] is filling in — I'd hate for your date to become unavailable.\n• I'm happy to hop on a quick call to walk through the proposal together and answer any questions.\n• If the scope or investment feels like a stretch, I have packages at a few different levels — we can always find a fit.\n\nJust reply here or grab a time on my calendar at [scheduling link]. No pressure — I just want to make sure you have what you need.\n\nHope to hear from you soon,\n[Your name]\nHaute & Host`},
+
+    {id:'contract_followup', label:'Contract Follow-Up', tag:'Admin',
+     subject:'Quick reminder — contract pending for [Event]',
+     body:`Hi [Name],\n\nJust a friendly nudge — I sent your contract over on [Date] and haven't received a signed copy yet.\n\nTo officially secure your date and get the creative process started, I'll need the signed agreement returned along with your deposit of $[Amount].\n\nIf you have any questions about the terms or anything feels unclear, please don't hesitate to ask — I'm happy to walk through it with you.\n\nYou can sign digitally via [signing platform] or reply with questions anytime.\n\nThank you,\n[Your name]\nHaute & Host`},
+
+    {id:'payment_reminder', label:'Payment Reminder', tag:'Finance',
+     subject:'Upcoming payment reminder — [Event name]',
+     body:`Hi [Name],\n\nI hope you're as excited as I am for [Event] on [Date]!\n\nThis is a friendly reminder that your [deposit / final balance] of $[Amount] is due on [Due Date].\n\nPayment can be made via [payment method / link]. If you have any questions or need to discuss the schedule, please reach out before the due date.\n\nLate payments beyond 5 business days are subject to a 5% late fee per our agreement — I always want to flag this early so we can stay aligned.\n\nThank you so much,\n[Your name]\nHaute & Host`},
+
+    {id:'thank_you_testimonial', label:'Thank You & Testimonial Ask', tag:'Post-Event',
+     subject:'Thank you — and one small ask ✦',
+     body:`Hi [Name],\n\nI'm still smiling thinking about [Event name]. It was such a pleasure to bring your vision to life, and seeing the final result — the way every detail came together — reminded me exactly why I do this work.\n\nI'd love to document this one for the portfolio. Would you be open to:\n\n1. A short written testimonial (even just a few sentences) about your experience?\n2. Permission to use photos from the event on our website, social media, and in press features (you'll always be credited)?\n\nIf you're happy to share, you can simply reply here or fill out this quick form: [link]\n\nAnd if there's anything you felt could have been even better, I genuinely want to hear that too — honest feedback helps me improve for every client after you.\n\nThank you again for trusting Haute & Host with something this meaningful.\n\nWith gratitude,\n[Your name]\nHaute & Host`},
+
+    {id:'professional_decline', label:'Professional Decline', tag:'Boundaries',
+     subject:'Re: Your inquiry — Haute & Host',
+     body:`Hi [Name],\n\nThank you so much for thinking of Haute & Host for your event — it genuinely means a lot that you reached out.\n\nAfter reviewing your vision and timeline, I have to be honest with you: I don't think I'm the right fit for this particular project. [Optional reason: The scope, aesthetic, or timing isn't aligned with where Haute & Host is right now / I'm fully committed through that period / etc.]\n\nI'd hate to take on something I couldn't give my full attention and energy to — you deserve a creative partner who's completely in.\n\nIf it would be helpful, I'm happy to point you toward a few colleagues whose work I genuinely admire and who may be a better fit.\n\nI wish you a beautiful event and hope our paths cross again in the future.\n\nWarmly,\n[Your name]\nHaute & Host`},
+
+    {id:'discovery_call', label:'Discovery Call Scheduling', tag:'New Lead',
+     subject:'Let\'s connect — Haute & Host discovery call',
+     body:`Hi [Name],\n\nThank you for your interest in Haute & Host! I'd love to set aside some time to learn more about your event vision and share a little about how we work.\n\nDiscovery calls are typically 20–30 minutes and completely low-pressure — it's just a chance for us to see if we're a good fit and for you to ask any questions.\n\nYou can grab a time that works for you here: [scheduling link]\n\nAlternatively, let me know your general availability and I'll send over a few options.\n\nLooking forward to it,\n[Your name]\nHaute & Host`},
+
+    {id:'influencer_followup', label:'Influencer / Collab Follow-Up', tag:'Partnerships',
+     subject:'Following up — collaboration opportunity with Haute & Host',
+     body:`Hi [Name],\n\nI wanted to circle back on the collaboration I reached out about [last week / on Date].\n\nI genuinely think our aesthetics are aligned and there's a really natural opportunity here for [co-hosted event / gifting / styled content shoot / cross-promotion — customize]. I'd love to find a format that works for both of us.\n\nIf now isn't the right time, no worries at all — I'd love to stay on your radar for future projects.\n\nWould a quick call or voice note exchange work for you to share initial thoughts?\n\nWith admiration for your work,\n[Your name]\nHaute & Host`},
+
+    {id:'brand_collab_pitch', label:'Brand Collaboration Pitch', tag:'Partnerships',
+     subject:'Creative partnership opportunity — Haute & Host × [Brand]',
+     body:`Hi [Name],\n\nI'm [Your name], the founder and creative director of Haute & Host — a full-service event production and creative direction studio based in [City]. We design and produce events that live at the intersection of experiential design and visual storytelling.\n\nI've been following [Brand] for a while and I'm consistently impressed by [specific thing — their aesthetic, values, product, community]. I'd love to explore what a creative collaboration might look like between our brands.\n\nWhat I envision:\n• [Specific idea: co-hosted dinner, styled content shoot featuring their product, pop-up event partnership, gifting suite — customize per pitch]\n• Deliverables: [Content, coverage, reach, cross-promotion]\n• Timeline: [Proposed timing]\n\nI've attached a brief overview of our work and past events. Our clients include [notable clients or event types], and our content consistently reaches [your metrics].\n\nI'd love to schedule a brief introductory call to discuss further. Are you available for 20 minutes [day/week]?\n\nLooking forward to the possibility,\n[Your name]\nHaute & Host\n[Website] | [Instagram] | [Email]`},
+
+    {id:'scope_creep', label:'Scope Creep — Professional Response', tag:'Boundaries',
+     subject:'Re: Additional request — [Event name]',
+     body:`Hi [Name],\n\nI love your enthusiasm for [the additional idea / new direction / extra elements] — honestly, your vision for this event is one of the reasons I enjoy working with you.\n\nI do want to be transparent: what you're describing falls outside of the scope we agreed upon in your original package. To add this in properly and give it the attention it deserves, it would require [additional time / materials / vendor coordination / production hours].\n\nI'd be happy to put together a quick add-on proposal for this. The investment would be approximately $[range], and I'd need [lead time] to execute it well.\n\nAlternatively, if budget is a consideration, I'm happy to discuss which existing elements might shift to make room — I just want to make sure we make that decision together, intentionally, rather than adding pressure to the day.\n\nLet me know how you'd like to proceed!\n\n[Your name]\nHaute & Host`},
+
+    {id:'high_budget_vip', label:'High-Budget VIP Welcome', tag:'New Lead',
+     subject:'Welcome to Haute & Host — let\'s build something extraordinary',
+     body:`Hi [Name],\n\nThank you for reaching out. After reviewing your vision for [Event], I want to say — this is exactly the kind of project Haute & Host was built for.\n\nAt this level, what I offer isn't just event styling — it's a full creative partnership. From the moment we begin working together through the last detail of the day, every decision is intentional, every element is custom, and every experience is designed to be felt, not just seen.\n\nHere's how I'd love to approach this:\n\n1. A private discovery session (1 hour) where we dig into your vision, non-negotiables, and aesthetic world.\n2. I'll develop a bespoke creative concept deck — mood, color, texture, layout, and experience flow — exclusively for your event.\n3. From there, we'll build your full production plan together.\n\nMy premium engagements begin at $[Your floor], and I work with a very limited number of clients at this level per season to ensure complete dedication.\n\nI'd love to schedule that initial conversation at your earliest convenience. Please let me know your preferred time, or grab a slot here: [link]\n\nWith great care,\n[Your name]\nHaute & Host`},
+  ];
+
+  el.innerHTML = `
+  <div style="margin-bottom:20px">
+    <div class="sec-eye">Marketing Hub</div>
+    <div class="sec-title">Client <em>Communications</em></div>
+    <div class="sec-desc">Pre-written, ready-to-send templates for every stage of the client journey. Click any template to expand, copy, or customize.</div>
+  </div>
+
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px">
+    ${['All','New Lead','Admin','Sales','Finance','Post-Event','Boundaries','Partnerships'].map(tag=>`
+    <button class="btn btn-ghost" style="font-size:9px;padding:5px 12px" onclick="mktFilterComms('${tag}',this)">${tag}</button>`).join('')}
+  </div>
+
+  <div id="comms-list">
+    ${templates.map(t=>`
+    <div class="dc comms-card" data-tag="${t.tag}" style="margin-bottom:10px">
+      <div class="dc-head" style="cursor:pointer" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="pill p-blue" style="font-size:8px">${t.tag}</span>
+          <div class="dc-title">${t.label}</div>
+        </div>
+        <span style="font-size:11px;color:var(--gray)">▾</span>
+      </div>
+      <div style="display:none;padding:16px">
+        <div style="font-size:10px;color:var(--blue);letter-spacing:0.1em;margin-bottom:6px;font-weight:600">SUBJECT: ${t.subject}</div>
+        <textarea class="ft" id="comm-${t.id}" style="min-height:220px;font-size:12px;line-height:1.7;color:var(--gray2)">${t.body}</textarea>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn btn-primary" style="font-size:9px" onclick="navigator.clipboard.writeText(document.getElementById('comm-${t.id}').value);toast('Copied to clipboard')">Copy to Clipboard</button>
+          <button class="btn btn-ghost" style="font-size:9px" onclick="mktSaveCommEdit('${t.id}')">Save Edits</button>
+        </div>
+      </div>
+    </div>`).join('')}
+  </div>`;
+
+  // Restore any saved edits
+  const saved = S.commsEdits||{};
+  templates.forEach(t=>{ if(saved[t.id]){ const el2=document.getElementById('comm-'+t.id); if(el2)el2.value=saved[t.id]; }});
+}
+function mktFilterComms(tag,btn){
+  document.querySelectorAll('.comms-card').forEach(card=>{
+    card.style.display=(tag==='All'||card.dataset.tag===tag)?'':'none';
+  });
+  document.querySelectorAll('#comms-list').forEach(()=>{});
+  btn.closest('div').querySelectorAll('.btn').forEach(b=>b.style.borderColor='');
+  btn.style.borderColor='var(--red)';
+}
+function mktSaveCommEdit(id){
+  if(!S.commsEdits)S.commsEdits={};
+  const el=document.getElementById('comm-'+id);
+  if(el){S.commsEdits[id]=el.value;save();toast('Template saved');}
+}
+
+// ══════════════════════════════════════════════════
+// LEGAL
+// ══════════════════════════════════════════════════
+
+function legalEl(){return document.getElementById('legal-content');}
+
+// ── 1. OVERVIEW ──────────────────────────────────
+function renderLegalOverview(){
+  const el=legalEl();if(!el)return;
+  const clients=S.clients||[];
+  const signed=clients.filter(c=>c.contractStatus==='signed').length;
+  const sent=clients.filter(c=>c.contractStatus==='sent').length;
+  const pending=clients.filter(c=>!c.contractStatus||c.contractStatus==='none').length;
+  const depPaid=clients.filter(c=>c.depositStatus==='paid').length;
+  el.innerHTML=`
+  <div style="margin-bottom:24px">
+    <div class="sec-eye">Legal Hub</div>
+    <div class="sec-title">Legal <em>Overview</em></div>
+    <div class="sec-desc">Protecting your time, energy, and creative output. Contracts, policies, boundaries, and rental agreements — all in one place.</div>
+  </div>
+
+  <!-- Stats -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px">
+    ${[
+      {val:signed,  lbl:'Contracts Signed', color:'var(--blue)'},
+      {val:sent,    lbl:'Awaiting Signature',color:'var(--red)'},
+      {val:pending, lbl:'Not Yet Sent',      color:'var(--gray)'},
+      {val:depPaid, lbl:'Deposits Paid',     color:'var(--white)'},
+    ].map(s=>`<div class="dc" style="text-align:center;padding:18px 12px">
+      <div style="font-family:'CanelaText',serif;font-size:32px;color:${s.color};line-height:1">${s.val}</div>
+      <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray);margin-top:4px">${s.lbl}</div>
+    </div>`).join('')}
+  </div>
+
+  <!-- Quick contract status -->
+  <div class="dc" style="margin-bottom:14px">
+    <div class="dc-head"><div class="dc-title">Contract Status — All Clients</div><span class="btn btn-ghost" style="font-size:9px;padding:3px 10px;cursor:pointer" onclick="switchSub(1)">Full View →</span></div>
+    <div class="scroll-x"><table class="ht">
+      <thead><tr><th>Client</th><th>Event</th><th>Contract</th><th>Deposit</th><th>Stage</th></tr></thead>
+      <tbody>${clients.slice(0,6).map(cl=>{
+        const ev=clientLinkedEvent(cl);
+        return `<tr style="cursor:pointer" onclick="S.currentClientId='${cl.id}';navTo('clients');setTimeout(()=>switchSub(2),30)">
+          <td style="font-weight:500">${cl.name}</td>
+          <td style="color:var(--gray2)">${ev?ev.title:cl.eventTitle||'—'}</td>
+          <td><span class="pill ${cl.contractStatus==='signed'?'p-green':cl.contractStatus==='sent'?'p-blue':'p-gray'}">${cl.contractStatus||'Not Sent'}</span></td>
+          <td><span class="pill ${cl.depositStatus==='paid'?'p-green':cl.depositStatus==='partial'?'p-cream':'p-gray'}">${cl.depositStatus||'—'}</span></td>
+          <td><span class="pill p-gray">${cl.stage||'—'}</span></td>
+        </tr>`;}).join('')}
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- Non-negotiables -->
+  <div class="dc" style="margin-bottom:14px">
+    <div class="dc-head"><div class="dc-title">Your Non-Negotiables</div></div>
+    <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      ${[
+        {title:'Payment',      icon:'◈', text:'50% non-refundable deposit at booking. Balance due 2 weeks before the event. Payments past 5 business days incur a 5% late fee per week.'},
+        {title:'Cancellations',icon:'◆', text:'Cancellations 60+ days out: deposit retained. Within 60 days: full balance due. Rescheduling subject to availability and may incur fees.'},
+        {title:'Scope',        icon:'✦', text:'All additional requests beyond the agreed scope are quoted separately. Written approval required for any changes to scope, budget, or timeline.'},
+        {title:'Creative Rights',icon:'◉',text:'Haute & Host retains creative rights to all custom collateral. Photography from events may be used for portfolio and marketing with proper credit.'},
+      ].map(n=>`<div style="padding:14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px">
+        <div style="font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--blue);margin-bottom:6px;font-weight:600">${n.icon} ${n.title}</div>
+        <div style="font-size:11px;color:var(--gray2);line-height:1.6">${n.text}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- Quick nav -->
+  <div class="dc">
+    <div class="dc-head"><div class="dc-title">Quick Links</div></div>
+    <div style="padding:14px 16px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-ghost" onclick="switchSub(1)">Contract Tracker →</button>
+      <button class="btn btn-ghost" onclick="switchSub(2)">Policies & Terms →</button>
+      <button class="btn btn-ghost" onclick="switchSub(3)">Boundaries & Scripts →</button>
+      <button class="btn btn-ghost" onclick="switchSub(4)">Rental Inventory →</button>
+    </div>
+  </div>`;
+}
+
+// ── 2. CONTRACTS ─────────────────────────────────
+function renderContracts(){
+  const el=legalEl();if(!el)return;
+  const sc={inquiry:'p-gray',proposal:'p-blue',booked:'p-green',complete:'p-green'};
+  el.innerHTML=`
+  <div style="margin-bottom:20px">
+    <div class="sec-eye">Legal Hub</div>
+    <div class="sec-title">Contracts & <em>Signatures</em></div>
+    <div class="sec-desc">Track contract and deposit status for every client. Click any row to open their full record.</div>
+  </div>
+
+  <div class="dc" style="margin-bottom:14px">
+    <div class="dc-head"><div class="dc-title">Contract Tracker</div></div>
+    <div class="scroll-x"><table class="ht">
+      <thead><tr><th>Client</th><th>Event</th><th>Type</th><th>Contract</th><th>Deposit</th><th>Stage</th><th>Venue</th></tr></thead>
+      <tbody>${(S.clients||[]).map(cl=>{
+        const ev=clientLinkedEvent(cl);
+        return `<tr style="cursor:pointer" onclick="S.currentClientId='${cl.id}';navTo('clients');setTimeout(()=>switchSub(2),30)">
+          <td style="font-weight:500">${cl.name}</td>
+          <td style="color:var(--gray2)">${ev?ev.title:cl.eventTitle||'—'}</td>
+          <td style="color:var(--gray2)">${cl.eventType||cl.type||'—'}</td>
+          <td><span class="pill ${cl.contractStatus==='signed'?'p-green':cl.contractStatus==='sent'?'p-blue':'p-gray'}">${cl.contractStatus||'Not Sent'}</span></td>
+          <td><span class="pill ${cl.depositStatus==='paid'?'p-green':cl.depositStatus==='partial'?'p-cream':'p-gray'}">${cl.depositStatus||'—'}</span></td>
+          <td><span class="pill ${sc[cl.stage]||'p-gray'}">${cl.stage||'—'}</span></td>
+          <td><span class="pill ${cl.venueConfirmed==='yes'?'p-green':'p-gray'}">${cl.venueConfirmed==='yes'?'Confirmed':'TBD'}</span></td>
+        </tr>`;}).join('')}
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="dc">
+    <div class="dc-head"><div class="dc-title">Master Contract Template</div><span style="font-size:9px;color:var(--gray)">Edit and save your standard terms</span></div>
+    <div style="padding:16px">
+      <textarea class="ft" id="ct-template" oninput="S.contractTemplate=this.value;clearTimeout(erT);erT=setTimeout(save,700)" style="min-height:360px;font-size:12px;line-height:1.8" placeholder="Paste or write your full contract template here...">${S.contractTemplate||`HAUTE & HOST — CLIENT SERVICE AGREEMENT
+
+Client Name: ___________________________
+Event Date: ___________________________
+Event Type: ___________________________
+Package: ___________________________
+
+PAYMENT SCHEDULE
+• 50% non-refundable deposit due upon booking to secure the date.
+• 50% balance due two weeks prior to the event date.
+• Payments not received within five (5) business days of their due date incur a 5% late fee per week.
+
+CANCELLATION POLICY
+• Cancellations made more than 60 days before the event: deposit is retained as a cancellation fee.
+• Cancellations within 60 days of the event: full balance is due to cover committed time and resources.
+• Date changes are subject to availability and may incur a rescheduling fee.
+
+SCOPE OF WORK
+• Services provided are limited to the agreed deliverables outlined in the signed proposal.
+• Additional requests beyond the agreed scope will be quoted separately and require written approval.
+• Any changes to scope, budget, or timeline require written confirmation from both parties.
+
+DAY-OF CONDUCT
+• One designated point of contact must be identified by the client for day-of decisions.
+• No changes to styling, layout, or decor may be made by the client or guests on event day without approval.
+• Respectful conduct toward Haute & Host staff and all vendors is expected at all times.
+
+CREATIVE OWNERSHIP
+• Haute & Host retains creative rights to all custom collateral and designs unless otherwise negotiated.
+• Clients are granted a personal-use license for delivered brand materials as specified in the proposal.
+• All photography and video captured by Haute & Host or hired vendors may be used for portfolio and promotional purposes with proper credit.
+
+SIGNATURES
+Client: ___________________________ Date: ____________
+Haute & Host: ___________________________ Date: ____________`}</textarea>
+    </div>
+  </div>`;
+}
+
+// ── 3. POLICIES & TERMS ──────────────────────────
+function renderPoliciesTerms(){
+  const el=legalEl();if(!el)return;
+  const policies=[
+    {key:'cancellation',label:'Cancellation Policy',
+     default:`• Cancellations 60+ days before the event: deposit is retained in full as a cancellation fee.\n• Cancellations within 60 days: the full contract balance is due. Time and resources committed cannot be recovered.\n• Rescheduling requests are subject to calendar availability and may incur a rescheduling fee of up to 20% of the package total.\n• Haute & Host reserves the right to cancel due to extraordinary circumstances (illness, emergency). In this case, a full refund of any payments beyond the deposit will be issued.`},
+    {key:'payment',label:'Payment Terms & Late Fees',
+     default:`• A 50% non-refundable deposit is required to secure your date. No date is held without payment.\n• The remaining 50% balance is due two (2) weeks before the event date.\n• Invoices not paid within five (5) business days of their due date will incur a 5% late fee per week.\n• Accepted payment methods: [Venmo / Zelle / Bank Transfer / Credit Card — customize].\n• All prices are in USD. Taxes and gratuity are not included unless specified.`},
+    {key:'revisions',label:'Revisions & Change Requests',
+     default:`• Two (2) rounds of design revisions are included in all packages.\n• Additional revision rounds are billed at $75/hour.\n• Revision requests must be submitted in writing (email or DM) within 48 hours of receiving a draft.\n• Verbal change requests will not be actioned until confirmed in writing.\n• Major concept changes after approval are considered new scope and will be quoted accordingly.`},
+    {key:'photo',label:'Photography, Content & Creative Rights',
+     default:`• Haute & Host retains the right to photograph and document all events for portfolio, social media, press, and marketing use.\n• Clients will receive proper credit when imagery is shared publicly (unless privacy is requested in writing).\n• Clients may not use Haute & Host's creative concepts, mood boards, or designs for purposes outside of the agreed project without written permission.\n• Any third-party photographers or videographers hired by the client must be briefed on Haute & Host's shot list and coordinate on event day logistics.\n• Raw files are not included in any package unless explicitly negotiated.`},
+    {key:'vendor',label:'Vendor & Third-Party Policy',
+     default:`• Haute & Host works exclusively with trusted vendors. Substitutions requested by the client are subject to vetting and may affect the timeline and cost.\n• Haute & Host is not responsible for vendor no-shows, delays, or quality issues beyond our control. However, we will always advocate for our clients.\n• All vendor contracts are separate from the Haute & Host agreement and are the client's financial responsibility unless otherwise specified.\n• Venue policies must be shared with Haute & Host at least 30 days before the event.`},
+  ];
+  el.innerHTML=`
+  <div style="margin-bottom:20px">
+    <div class="sec-eye">Legal Hub</div>
+    <div class="sec-title">Policies & <em>Terms</em></div>
+    <div class="sec-desc">Your standard policies — editable, saveable, and ready to paste into contracts or your website.</div>
+  </div>
+  ${policies.map(p=>`
+  <div class="dc" style="margin-bottom:12px">
+    <div class="dc-head"><div class="dc-title">${p.label}</div>
+      <button class="btn btn-ghost" style="font-size:9px;padding:3px 10px" onclick="navigator.clipboard.writeText(document.getElementById('pol-${p.key}').value);toast('Copied')">Copy</button>
+    </div>
+    <div class="dc-body">
+      <textarea class="ft" id="pol-${p.key}" oninput="savePol('${p.key}')" style="min-height:120px;line-height:1.8">${S.policies?.[p.key]||p.default}</textarea>
+    </div>
+  </div>`).join('')}`;
+}
+function savePol(k){if(!S.policies)S.policies={};const el=document.getElementById('pol-'+k);if(el)S.policies[k]=el.value;clearTimeout(erT);erT=setTimeout(save,700);}
+
+// ── 4. BOUNDARIES & SCRIPTS ──────────────────────
+function renderBoundariesScripts(){
+  const el=legalEl();if(!el)return;
+  el.innerHTML=`
+  <div style="margin-bottom:20px">
+    <div class="sec-eye">Legal Hub</div>
+    <div class="sec-title">Boundaries & <em>Scripts</em></div>
+    <div class="sec-desc">Know your red flags. Know your lines. Know exactly how to say it professionally.</div>
+  </div>
+
+  <!-- Red flags -->
+  <div class="dc" style="margin-bottom:14px">
+    <div class="dc-head"><div class="dc-title">Client Red Flag Library</div></div>
+    <div style="padding:16px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        ${[
+          {flag:'Scope Creep', detail:'Persistent requests for additions without willingness to adjust budget. "Can you just add one more thing?" — repeatedly.'},
+          {flag:'Ghosting', detail:'Delayed or inconsistent communication during planning. Hard to reach, slow to approve, then urgent last-minute.'},
+          {flag:'Expert Dismissal', detail:'Pushback on professional recommendations or design expertise. "I saw it on Pinterest and it looked easy."'},
+          {flag:'Price Pushback After Proposal', detail:'Significant negotiation after a formal proposal has been submitted. The budget was confirmed before the proposal was built.'},
+          {flag:'No Point of Contact', detail:'No clear decision-maker identified. Multiple people giving conflicting feedback with no hierarchy.'},
+          {flag:'"Just a Quick Favor"', detail:'Requests for unpaid consultations, spec work, or free ideas framed as "small things."'},
+          {flag:'Vague Brief', detail:'No clear vision, no mood board, no references — but very strong opinions when presented with concepts.'},
+          {flag:'Entitlement Energy', detail:'Expects priority access, immediate responses, and premium results at below-market rates.'},
+        ].map(f=>`<div style="padding:12px;background:rgba(255,49,49,0.04);border:1px solid rgba(255,49,49,0.12);border-radius:8px">
+          <div style="font-size:10px;font-weight:600;color:var(--red);margin-bottom:4px">⚠ ${f.flag}</div>
+          <div style="font-size:11px;color:var(--gray2);line-height:1.5">${f.detail}</div>
+        </div>`).join('')}
+      </div>
+      <div class="f"><div class="fl">Add your own red flags & notes</div>
+        <textarea class="ft" id="bnd-rf" oninput="saveBnd()" style="min-height:70px" placeholder="Other patterns you've noticed...">${S.boundaries?.redflags||''}</textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Boundary scripts -->
+  <div class="dc" style="margin-bottom:14px">
+    <div class="dc-head"><div class="dc-title">How to Say "No" — Script Library</div><span style="font-size:9px;color:var(--gray)">Click to copy</span></div>
+    <div style="padding:16px;display:flex;flex-direction:column;gap:8px">
+      ${[
+        {label:'Scope creep — extra request', text:'"I appreciate your enthusiasm for [additional element]. I\'d be happy to put together an updated proposal to incorporate this — it would require [additional investment/time]. Would you like me to send that over?"'},
+        {label:'Protecting design integrity', text:'"To maintain the quality and cohesion of what we\'ve built, I\'m not able to accommodate that change without adjusting the timeline or scope. Let\'s talk about what we can shift to make it work."'},
+        {label:'Beyond agreed scope', text:'"That falls outside of what we agreed upon, but I\'d love to find a way to incorporate it. Let\'s discuss how to do that in a way that aligns with your budget and our timeline."'},
+        {label:'Communication boundary', text:'"I respond to messages Monday through Friday, 9am–6pm. For anything urgent on event day, [phone number] is the best way to reach me. I want to make sure I can give you my full attention during business hours."'},
+        {label:'Declining a project', text:'"After reflecting on your vision and my current capacity, I don\'t think I\'m the right fit for this project right now. I want to be honest with you — you deserve a creative partner who\'s fully available and aligned. I\'m happy to refer you to someone whose work I trust."'},
+        {label:'Pricing pushback', text:'"I understand that investment is a real consideration. My pricing reflects the time, expertise, and quality of work I bring to every project — I\'m not able to reduce it without reducing the scope. I\'m happy to look at what a smaller package might look like if that helps."'},
+        {label:'Spec work request', text:'"I\'m not able to develop full concepts or creative directions before a contract is signed — that work is what I get paid to do. I\'m happy to share portfolio examples and discuss your vision on a discovery call to see if we\'re a fit."'},
+      ].map(s=>`<div style="padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:6px;cursor:pointer" onclick="navigator.clipboard.writeText('${s.text.replace(/'/g,"\\'")}');toast('Copied')">
+        <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:5px">${s.label}</div>
+        <div style="font-size:11px;color:var(--gray2);line-height:1.6;font-style:italic">${s.text}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- Your non-negotiables -->
+  <div class="dc">
+    <div class="dc-head"><div class="dc-title">Your Boundaries & Non-Negotiables</div></div>
+    <div class="dc-body">
+      <div class="fr full"><div class="f"><div class="fl">What Haute & Host Will Never Do</div>
+        <textarea class="ft" id="bnd-nv" oninput="saveBnd()" style="min-height:90px" placeholder="Event types you decline. Aesthetics that are off-brand. Client behaviors that are dealbreakers.">${S.boundaries?.never||''}</textarea>
+      </div></div>
+      <div class="fr"><div class="f"><div class="fl">Creative Rights & Attribution Standards</div>
+        <textarea class="ft" id="bnd-rg" oninput="saveBnd()" placeholder="How you protect your creative work. Tagging requirements. Usage terms.">${S.boundaries?.rights||''}</textarea>
+      </div>
+      <div class="f"><div class="fl">Communication Boundaries</div>
+        <textarea class="ft" id="bnd-cm" oninput="saveBnd()" placeholder="Response hours, preferred channels, out-of-hours policy.">${S.boundaries?.comms||''}</textarea>
+      </div></div>
+    </div>
+  </div>`;
+}
+function saveBnd(){
+  if(!S.boundaries)S.boundaries={};
+  const m={nv:'never',rg:'rights',cm:'comms',rf:'redflags'};
+  Object.entries(m).forEach(([k,v])=>{const el=document.getElementById('bnd-'+k);if(el)S.boundaries[v]=el.value;});
+  clearTimeout(erT);erT=setTimeout(save,700);
+}
+
+// ── 5. RENTALS ───────────────────────────────────
+function renderRentals(){
+  const el=legalEl();if(!el)return;
+  const rentals=S.rentals||[];
+  const cats=['Backdrops & Installations','Photo & Content','Tableware & Linens','Floral & Botanical','Lighting','Signage & Print','Specialty & Unique'];
+  el.innerHTML=`
+  <div style="margin-bottom:20px">
+    <div class="sec-eye">Legal Hub</div>
+    <div class="sec-title">Rental <em>Inventory</em></div>
+    <div class="sec-desc">Track every physical item you own and rent out — flower walls, photobooths, backdrops, tableware, and more. Link to events and clients.</div>
+  </div>
+
+  <!-- Stats -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px">
+    ${[
+      {val:rentals.length, lbl:'Total Items', color:'var(--blue)'},
+      {val:rentals.filter(r=>r.status==='Available').length, lbl:'Available', color:'var(--white)'},
+      {val:rentals.filter(r=>r.status==='Rented Out').length, lbl:'Currently Rented', color:'var(--red)'},
+    ].map(s=>`<div class="dc" style="text-align:center;padding:16px">
+      <div style="font-family:'CanelaText',serif;font-size:28px;color:${s.color};line-height:1">${s.val}</div>
+      <div style="font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray);margin-top:4px">${s.lbl}</div>
+    </div>`).join('')}
+  </div>
+
+  <!-- Inventory table -->
+  <div class="dc" style="margin-bottom:14px">
+    <div class="dc-head"><div class="dc-title">Rental Inventory</div>
+      <button class="btn btn-primary" style="font-size:9px" onclick="addRentalItem()">+ Add Item</button>
+    </div>
+    <div class="scroll-x"><table class="ht">
+      <thead><tr><th>Item</th><th>Category</th><th>Daily Rate</th><th>Weekend Rate</th><th>Deposit Req.</th><th>Status</th><th>Linked Event</th><th>Condition</th><th>Notes</th><th></th></tr></thead>
+      <tbody>
+        ${rentals.map((r,i)=>`<tr>
+          <td style="font-weight:500"><input class="fi" style="font-size:11px" value="${r.name||''}" placeholder="e.g. Flower Wall" onchange="S.rentals[${i}].name=this.value;save()"></td>
+          <td><select class="fs" style="font-size:10px" onchange="S.rentals[${i}].cat=this.value;save()">
+            ${cats.map(c=>`<option ${r.cat===c?'selected':''}>${c}</option>`).join('')}
+          </select></td>
+          <td><input class="fi" style="font-size:11px;width:80px" value="${r.daily||''}" placeholder="$250" onchange="S.rentals[${i}].daily=this.value;save()"></td>
+          <td><input class="fi" style="font-size:11px;width:80px" value="${r.weekend||''}" placeholder="$400" onchange="S.rentals[${i}].weekend=this.value;save()"></td>
+          <td><input class="fi" style="font-size:11px;width:80px" value="${r.deposit||''}" placeholder="$100" onchange="S.rentals[${i}].deposit=this.value;save()"></td>
+          <td><select class="fs" style="font-size:10px" onchange="S.rentals[${i}].status=this.value;save()">
+            ${['Available','Rented Out','Maintenance','Retired'].map(s=>`<option ${r.status===s?'selected':''}>${s}</option>`).join('')}
+          </select></td>
+          <td><select class="fs" style="font-size:10px" onchange="S.rentals[${i}].linkedEvent=this.value;save()">
+            <option value="">— None —</option>
+            ${(S.events||[]).map(e=>`<option value="${e.id}" ${r.linkedEvent===e.id?'selected':''}>${e.title.substring(0,18)}</option>`).join('')}
+          </select></td>
+          <td><select class="fs" style="font-size:10px" onchange="S.rentals[${i}].condition=this.value;save()">
+            ${['Excellent','Good','Fair','Needs Repair'].map(c=>`<option ${r.condition===c?'selected':''}>${c}</option>`).join('')}
+          </select></td>
+          <td><input class="fi" style="font-size:11px" value="${r.notes||''}" placeholder="Notes..." onchange="S.rentals[${i}].notes=this.value;save()"></td>
+          <td><button class="btn btn-ghost" style="font-size:10px;padding:4px 8px" onclick="S.rentals.splice(${i},1);save();renderRentals()">✕</button></td>
+        </tr>`).join('')}
+      </tbody>
+    </table></div>
+    <button class="add-row" onclick="addRentalItem()"><span class="ar-icon">+</span>Add Item</button>
+  </div>
+
+  <!-- Rental agreement template -->
+  <div class="dc">
+    <div class="dc-head"><div class="dc-title">Rental Agreement Template</div>
+      <button class="btn btn-ghost" style="font-size:9px;padding:3px 10px" onclick="navigator.clipboard.writeText(document.getElementById('rental-agreement').value);toast('Copied')">Copy</button>
+    </div>
+    <div style="padding:16px">
+      <textarea class="ft" id="rental-agreement" oninput="if(!S.legalNotes)S.legalNotes={};S.legalNotes.rentalAgreement=this.value;clearTimeout(erT);erT=setTimeout(save,700)" style="min-height:300px;font-size:12px;line-height:1.8">${S.legalNotes?.rentalAgreement||`HAUTE & HOST — RENTAL AGREEMENT
+
+Client Name: ___________________________
+Event Date: ___________________________
+Rental Items: ___________________________
+Pickup / Delivery Date: ___________________________
+Return Date: ___________________________
+
+RENTAL TERMS
+• All rental items must be returned in the same condition as delivered.
+• A damage deposit of $[Amount] is required at booking and returned upon inspection after return.
+• Damage, loss, or theft will be charged at full replacement cost.
+• Items must be returned by [time] on the return date. Late returns incur a fee of $[Amount] per day.
+• Client is responsible for the items from the time of pickup/delivery until return.
+
+DELIVERY & SETUP
+• Haute & Host offers delivery and pickup at an additional fee of $[Amount] within [radius].
+• Client is responsible for safe storage of items during the rental period.
+• Setup and teardown of backdrop, flower wall, or photobooth is available at $[Amount]/hr.
+
+CANCELLATION
+• Cancellations 14+ days out: deposit refunded.
+• Cancellations within 14 days: deposit retained.
+• No refunds for early returns.
+
+SIGNATURES
+Client: ___________________________ Date: ____________
+Haute & Host: ___________________________ Date: ____________`}</textarea>
+    </div>
+  </div>`;
+}
+function addRentalItem(){
+  if(!S.rentals)S.rentals=[];
+  S.rentals.push({id:gid(),name:'',cat:'Backdrops & Installations',daily:'',weekend:'',deposit:'',status:'Available',condition:'Excellent',linkedEvent:'',notes:''});
+  save();renderRentals();
+}
+
 
 // ══════════════════════════════════════════════════
 // BRAND
@@ -4193,49 +4950,6 @@ function renderBizPlan(){
 function saveBP(){if(!S.bizplan)S.bizplan={};const m={ov:'overview',rev:'revenue',gr:'growth',ed:'edge'};Object.entries(m).forEach(([k,v])=>{const el=document.getElementById('bp-'+k);if(el)S.bizplan[v]=el.value;});clearTimeout(erT);erT=setTimeout(save,700);}
 
 // ══════════════════════════════════════════════════
-// LEGAL
-// ══════════════════════════════════════════════════
-function renderContracts(){
-  const sc={inquiry:'p-gray',proposal:'p-blue',booked:'p-green',complete:'p-green'};
-  document.getElementById('legal-content').innerHTML=`
-  <div style="margin-bottom:20px">
-    <div class="sec-eye">Legal Hub</div>
-    <div class="sec-title">Contracts & <em>Agreements</em></div>
-    <div class="sec-desc">Contract and deposit status for every client. Click any row to open their record.</div>
-  </div>
-  <div class="dc"><div class="scroll-x"><table class="ht">
-    <thead><tr><th>Client</th><th>Event</th><th>Event Type</th><th>Contract</th><th>Deposit</th><th>Stage</th><th>Venue</th></tr></thead>
-    <tbody>${S.clients.map(cl=>{
-      const linkedEv = clientLinkedEvent(cl);
-      return `<tr style="cursor:pointer" onclick="S.currentClientId='${cl.id}';navTo('clients');setTimeout(()=>switchSub(2),30)">
-        <td style="font-weight:500">${cl.name}</td>
-        <td style="color:var(--gray2)">${linkedEv?linkedEv.title:cl.eventTitle||'—'}</td>
-        <td style="color:var(--gray2)">${cl.eventType||cl.type||'—'}</td>
-        <td><span class="pill ${cl.contractStatus==='signed'?'p-green':cl.contractStatus==='sent'?'p-blue':'p-gray'}">${cl.contractStatus||'Not Sent'}</span></td>
-        <td><span class="pill ${cl.depositStatus==='paid'?'p-green':cl.depositStatus==='partial'?'p-cream':'p-gray'}">${cl.depositStatus||'—'}</span></td>
-        <td><span class="pill ${sc[cl.stage]||'p-gray'}">${cl.stage}</span></td>
-        <td><span class="pill ${cl.venueConfirmed==='yes'?'p-green':'p-gray'}">${cl.venueConfirmed==='yes'?'Confirmed':'TBD'}</span></td>
-      </tr>`;
-    }).join('')}</tbody>
-  </table></div></div>
-  <div class="dc" style="margin-top:12px"><div class="dc-head"><div class="dc-title">Contract Template Notes</div></div><div class="dc-body"><textarea class="ft" id="ct-notes" oninput="S.contractNotes=this.value;clearTimeout(erT);erT=setTimeout(save,700)" placeholder="Your standard contract terms, clauses to always include, red lines..." style="min-height:110px">${S.contractNotes||''}</textarea></div></div>`;
-}
-function renderPolicies(){
-  document.getElementById('legal-content').innerHTML=`<div class="sec-head"><div class="sec-eye">Legal Hub</div><div class="sec-title">Studio <em>Policies</em></div></div>
-  ${[['cancellation','Cancellation Policy'],['revisions','Revisions Policy'],['payment','Payment Terms'],['photo','Photography & Content Rights']].map(([k,l])=>`<div class="dc" style="margin-bottom:10px"><div class="dc-head"><div class="dc-title">${l}</div></div><div class="dc-body"><textarea class="ft" id="pol-${k}" oninput="savePol('${k}')" style="min-height:80px" placeholder="Write your ${l.toLowerCase()} here...">${S.policies?.[k]||''}</textarea></div></div>`).join('')}`;
-}
-function savePol(k){if(!S.policies)S.policies={};const el=document.getElementById('pol-'+k);if(el)S.policies[k]=el.value;clearTimeout(erT);erT=setTimeout(save,700);}
-function renderBoundaries(){
-  document.getElementById('legal-content').innerHTML=`<div class="sec-head"><div class="sec-eye">Legal Hub</div><div class="sec-title">Creative <em>Boundaries</em></div></div>
-  <div class="dc"><div class="dc-body">
-    <div class="fr full"><div class="f"><div class="fl">What Haute & Host Will Never Do</div><textarea class="ft" id="bnd-nv" oninput="saveBnd()" style="min-height:110px" placeholder="Event types you decline. Aesthetics you won't take. Client behaviors that are dealbreakers.">${S.boundaries?.never||''}</textarea></div></div>
-    <div class="fr full"><div class="f"><div class="fl">Creative Rights & Attribution</div><textarea class="ft" id="bnd-rg" oninput="saveBnd()" placeholder="How you protect your creative work. Attribution requirements. Social tagging policy.">${S.boundaries?.rights||''}</textarea></div></div>
-    <div class="fr full"><div class="f"><div class="fl">Communication Boundaries</div><textarea class="ft" id="bnd-cm" oninput="saveBnd()" placeholder="Response hours, preferred channels, out-of-hours policy.">${S.boundaries?.comms||''}</textarea></div></div>
-  </div></div>`;
-}
-function saveBnd(){if(!S.boundaries)S.boundaries={};const m={nv:'never',rg:'rights',cm:'comms'};Object.entries(m).forEach(([k,v])=>{const el=document.getElementById('bnd-'+k);if(el)S.boundaries[v]=el.value;});clearTimeout(erT);erT=setTimeout(save,700);}
-
-// ══════════════════════════════════════════════════
 // STUDIO
 // ══════════════════════════════════════════════════
 function renderTasks(){
@@ -4256,7 +4970,7 @@ function renderGoals(){
   ${['Q1 2026','Q2 2026','Q3 2026','Annual 2026'].map(q=>`<div class="dc" style="margin-bottom:10px"><div class="dc-head"><div class="dc-title">${q}</div></div><div class="dc-body"><textarea class="ft" id="g-${q.replace(/\s/g,'-')}" oninput="saveGoals()" placeholder="Goals for ${q}...">${S.goals?.find(g=>g.period===q)?.text||''}</textarea></div></div>`).join('')}`;
 }
 function saveGoals(){if(!S.goals)S.goals=[];['Q1 2026','Q2 2026','Q3 2026','Annual 2026'].forEach(q=>{const el=document.getElementById('g-'+q.replace(/\s/g,'-'));if(!el)return;const ex=S.goals.find(g=>g.period===q);if(ex)ex.text=el.value;else S.goals.push({period:q,text:el.value});});clearTimeout(erT);erT=setTimeout(save,700);}
-function renderStudioCal(){renderCalendar();document.getElementById('studio-content').innerHTML=document.getElementById('marketing-content').innerHTML;}
+function renderStudioCal(){renderContentSocial();document.getElementById('studio-content').innerHTML=document.getElementById('marketing-content').innerHTML;}
 
 // ══════════════════════════════════════════════════
 // MODALS + UTILS
@@ -4272,14 +4986,9 @@ function importOS(e){const f=e.target.files[0];if(!f)return;const r=new FileRead
 // INIT
 // ══════════════════════════════════════════════════
 load();
-// ── Package migration: refresh packages whenever seedPackages is updated ──
-// Bump this version number any time you change the packages lineup.
+// Package migration — bump PKG_VERSION when packages change
 const PKG_VERSION = 2;
-if (!S.packagesV || S.packagesV < PKG_VERSION) {
-  S.packages = seedPackages();
-  S.packagesV = PKG_VERSION;
-  localStorage.setItem(SK, JSON.stringify(S));
-}
+if (!S.packagesV || S.packagesV < PKG_VERSION) { S.packages = seedPackages(); S.packagesV = PKG_VERSION; localStorage.setItem(SK, JSON.stringify(S)); }
 navTo('home');
 document.getElementById('nav-cta').style.display='';
 </script>
